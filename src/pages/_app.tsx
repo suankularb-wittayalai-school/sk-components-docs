@@ -47,7 +47,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                 ),
                 active: <MaterialIcon icon="vertical_split" type="filled" />,
               },
-              url: "/account/login",
+              url: "/layouts",
             },
             {
               name: t("navigation.components"),
@@ -55,7 +55,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                 inactive: <MaterialIcon icon="widgets" type="outlined" />,
                 active: <MaterialIcon icon="widgets" type="filled" />,
               },
-              url: "/about",
+              url: "/components",
             },
           ]}
           LinkElement={Link}
