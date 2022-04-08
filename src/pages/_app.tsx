@@ -40,18 +40,20 @@ const App = ({ Component, pageProps }: AppProps) => {
               url: "/",
             },
             {
-              name: t("navigation.login"),
+              name: t("navigation.layouts"),
               icon: {
-                inactive: <MaterialIcon icon="login" type="outlined" />,
-                active: <MaterialIcon icon="login" type="filled" />,
+                inactive: (
+                  <MaterialIcon icon="vertical_split" type="outlined" />
+                ),
+                active: <MaterialIcon icon="vertical_split" type="filled" />,
               },
               url: "/account/login",
             },
             {
-              name: t("navigation.about"),
+              name: t("navigation.components"),
               icon: {
-                inactive: <MaterialIcon icon="information" type="outlined" />,
-                active: <MaterialIcon icon="information" type="filled" />,
+                inactive: <MaterialIcon icon="widgets" type="outlined" />,
+                active: <MaterialIcon icon="widgets" type="filled" />,
               },
               url: "/about",
             },

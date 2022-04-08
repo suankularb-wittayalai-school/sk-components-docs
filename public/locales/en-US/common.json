@@ -1,11 +1,10 @@
 {
   "brand": {
-    "name": "NextJS Template",
-    "school": "Suankularb Wittayalai School"
+    "name": "SK Components"
   },
   "navigation": {
     "home": "Home",
-    "login": "Log in",
-    "about": "About"
+    "layouts": "Layouts",
+    "components": "Components"
   }
 }

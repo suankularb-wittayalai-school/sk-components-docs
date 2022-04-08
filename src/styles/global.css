@@ -4,6 +4,6 @@
 
 @layer base {
   * {
-    @apply outline-none transition-colors;
+    @apply outline-none transition-colors [-webkit-tap-highlight-color:transparent];
   }
 }

@@ -14,6 +14,7 @@ import {
   Section,
   Title,
 } from "@suankularb-components/react";
+import Link from "next/link";
 
 // Page
 const Index: NextPage = () => {
@@ -33,21 +34,34 @@ const Index: NextPage = () => {
           />
         }
       >
-        <Section>
-          <div className="relative aspect-[4/1] w-full overflow-hidden rounded-3xl">
-            <Image
-              src="/images/home/banner.webp"
-              layout="fill"
-              alt={t("welcome.banner")}
-            />
+        <Section labelledBy="menu">
+          <h2 className="sr-only" id="menu">
+            Menu
+          </h2>
+          <div className="layout-grid-cols-2">
+            <Link href="/layouts">
+              <a
+                className="container-secondary has-action--secondary flex aspect-[3/1] items-center justify-center gap-2 rounded-8xl
+                  font-display text-3xl font-bold before:rounded-8xl"
+              >
+                <div className="text-6xl text-secondary">
+                  <MaterialIcon icon="vertical_split" allowCustomSize />
+                </div>
+                <span>Layouts</span>
+              </a>
+            </Link>
+            <Link href="/components">
+              <a
+                className="container-tertiary has-action--tertiary flex aspect-[3/1] items-center justify-center gap-2 rounded-8xl
+                  font-display text-3xl font-bold before:rounded-8xl"
+              >
+                <div className="text-6xl text-tertiary">
+                  <MaterialIcon icon="widgets" allowCustomSize />
+                </div>
+                <span>Components</span>
+              </a>
+            </Link>
           </div>
-        </Section>
-        <Section labelledBy="welcome">
-          <Header
-            icon={<MaterialIcon icon="waving_hand" allowCustomSize />}
-            text={t("welcome.title")}
-          />
-          <p>{t("welcome.desc")}</p>
         </Section>
       </RegularLayout>
     </>
