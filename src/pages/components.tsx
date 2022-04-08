@@ -2,9 +2,11 @@
 import { NextPage } from "next";
 import Link from "next/link";
 
+import { Trans, useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 // SK Components
 import {
@@ -23,10 +25,10 @@ import {
   Section,
   Title,
 } from "@suankularb-components/react";
-import ReactMarkdown from "react-markdown";
 
 // Page
 const Components: NextPage = () => {
+  const { t } = useTranslation("components");
   const [showMain, setShowMain] = useState<boolean>(false);
   const [selectedID, setSelectedID] = useState<number>();
 
@@ -81,6 +83,20 @@ const Components: NextPage = () => {
                     subtitle: "Displayed user input.",
                   },
                 },
+                {
+                  id: 4,
+                  content: {
+                    name: "Chip List",
+                    subtitle: "Chips together, at last.",
+                  },
+                },
+                {
+                  id: 5,
+                  content: {
+                    name: "Chip Radio Group",
+                    subtitle: "Choose your Chip.",
+                  },
+                },
               ],
             },
           ]}
@@ -120,7 +136,7 @@ const Components: NextPage = () => {
         <Section>
           <Header
             icon={<MaterialIcon icon="design_services" allowCustomSize />}
-            text="Guidelines"
+            text={t("main.guidelines.title")}
           />
           <div className="markdown py-2">
             <ReactMarkdown>
@@ -131,13 +147,18 @@ const Components: NextPage = () => {
           </div>
           <Card type="stacked" appearance="outlined">
             <CardSupportingText>
-              <div className="flex flex-row items-center gap-2">
+              <div className="flex flex-row items-center gap-4">
                 <p className="grow">
-                  <span className="font-display text-lg font-bold">
-                    For more details,
-                  </span>{" "}
-                  check out Material Design 3’s Button, which Button is based
-                  off of.
+                  <Trans
+                    i18nKey="main.guidelines.checkMaterial"
+                    ns="components"
+                  >
+                    <span className="font-display text-lg font-bold">
+                      For more details,
+                    </span>{" "}
+                    check out Material Design 3’s {{ materialEquiv: "Button" }},
+                    which {{ componentName: "Button" }} is based off of.
+                  </Trans>
                 </p>
                 <LinkButton
                   name="Go to Material Design"
@@ -157,14 +178,24 @@ const Components: NextPage = () => {
         <Section>
           <Header
             icon={<MaterialIcon icon="code" allowCustomSize />}
-            text="Implementation"
+            text={t("main.implementation.title")}
           />
           <ChipRadioGroup
             choices={[
-              { id: "js", name: "JavaScript" },
-              { id: "ts", name: "TypeScript" },
+              {
+                id: "css",
+                name: t("main.implementation.language.css"),
+              },
+              {
+                id: "react-js",
+                name: t("main.implementation.language.reactJS"),
+              },
+              {
+                id: "react-ts",
+                name: t("main.implementation.language.reactTS"),
+              },
             ]}
-            value="ts"
+            value="css"
             required
           />
           <div className="grid aspect-[2/3] grid-rows-2 overflow-hidden rounded-lg shadow sm:aspect-[2/1] sm:grid-cols-2 sm:grid-rows-1">
@@ -176,9 +207,9 @@ const Components: NextPage = () => {
                 <Button name="button" label="Text button" type="text" />
               </div>
             </div>
-            <div className="aspect-square overflow-y-scroll bg-surface-1 font-mono">
+            <div className="aspect-square overflow-y-scroll bg-surface-1">
               <code>
-                <pre className="whitespace-pre-wrap p-4">
+                <pre className="whitespace-pre-wrap p-4 font-mono">
                   {
                     '<Button name="button" label="Filled button" type="filled" />\n<Button name="button" label="Tonal button" type="tonal" />\n<Button name="button" label="Outlined button" type="outlined" />\n<Button name="button" label="Text button" type="text" />'
                   }
@@ -194,7 +225,7 @@ const Components: NextPage = () => {
 
 export const getStaticProps = async ({ locale }: { locale: string }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ["common", "layouts"])),
+    ...(await serverSideTranslations(locale, ["common", "components"])),
   },
 });
 
