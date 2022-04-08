@@ -31,13 +31,16 @@ const Index: NextPage = () => {
             name={{ title: t("title") }}
             pageIcon={<MaterialIcon icon="home" />}
             backGoesTo="/"
+            className="sm:!hidden"
           />
         }
       >
-        <Section labelledBy="menu">
-          <h2 className="sr-only" id="menu">
-            Menu
-          </h2>
+        <Section labelledBy="welcome">
+          <Header icon={<MaterialIcon icon="waving_hand" />} text="Welcome!" />
+          <p className="font-display text-xl text-on-surface-variant">
+            Thanks for helping us develop Suankularb websites.
+            Let’s get you started:
+          </p>
           <div className="layout-grid-cols-2">
             <Link href="/layouts">
               <a
