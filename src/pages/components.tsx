@@ -23,6 +23,7 @@ import {
   Section,
   Title,
 } from "@suankularb-components/react";
+import ReactMarkdown from "react-markdown";
 
 // Page
 const Components: NextPage = () => {
@@ -122,15 +123,11 @@ const Components: NextPage = () => {
             text="Guidelines"
           />
           <div className="markdown py-2">
-            <p>
-              Buttons help people initiate actions, from sending an email, to
-              sharing a document, to liking a post.
-            </p>
-            <p>
-              Choose the type of button based on the importance of the action.
-              The more important the action is, the more emphasis its button
-              should have.
-            </p>
+            <ReactMarkdown>
+              {
+                "Buttons help people **initiate actions**, from sending an email, to sharing a document, to liking a post.\n\nChoose the **type of button** based on the _importance of the action_. The more important the action is, the more emphasis its button should have."
+              }
+            </ReactMarkdown>
           </div>
           <Card type="stacked" appearance="outlined">
             <CardSupportingText>
