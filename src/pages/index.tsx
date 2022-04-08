@@ -35,17 +35,20 @@ const Index: NextPage = () => {
           />
         }
       >
-        <Section labelledBy="welcome">
-          <Header icon={<MaterialIcon icon="waving_hand" />} text="Welcome!" />
+        <Section>
+          <Header
+            icon={<MaterialIcon icon="waving_hand" allowCustomSize />}
+            text="Welcome!"
+          />
           <p className="font-display text-xl text-on-surface-variant">
-            Thanks for helping us develop Suankularb websites.
-            Let’s get you started:
+            Thanks for helping us develop Suankularb websites. Let’s get you
+            started:
           </p>
           <div className="layout-grid-cols-2">
             <Link href="/layouts">
               <a
-                className="container-secondary has-action--secondary flex aspect-[3/1] items-center justify-center gap-2 rounded-8xl
-                  font-display text-3xl font-bold before:rounded-8xl"
+                className="container-secondary has-action--secondary before:rounded-8xl flex aspect-[3/1] items-center justify-center gap-2
+                  rounded-3xl font-display text-3xl font-bold"
               >
                 <div className="text-6xl text-secondary">
                   <MaterialIcon icon="vertical_split" allowCustomSize />
@@ -55,8 +58,8 @@ const Index: NextPage = () => {
             </Link>
             <Link href="/components">
               <a
-                className="container-tertiary has-action--tertiary flex aspect-[3/1] items-center justify-center gap-2 rounded-8xl
-                  font-display text-3xl font-bold before:rounded-8xl"
+                className="container-tertiary has-action--tertiary before:rounded-8xl flex aspect-[3/1] items-center justify-center gap-2
+                  rounded-3xl font-display text-3xl font-bold"
               >
                 <div className="text-6xl text-tertiary">
                   <MaterialIcon icon="widgets" allowCustomSize />
@@ -65,6 +68,12 @@ const Index: NextPage = () => {
               </a>
             </Link>
           </div>
+        </Section>
+        <Section>
+          <Header
+            icon={<MaterialIcon icon="download" allowCustomSize />}
+            text="Installation guide"
+          />
         </Section>
       </RegularLayout>
     </>
