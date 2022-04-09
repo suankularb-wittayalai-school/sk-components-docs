@@ -1,6 +1,7 @@
 // Modules
 import { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -13,7 +14,6 @@ import {
   Section,
   Title,
 } from "@suankularb-components/react";
-import Link from "next/link";
 
 // Page
 const Index: NextPage = () => {
