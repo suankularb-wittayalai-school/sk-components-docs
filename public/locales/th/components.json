@@ -3,7 +3,7 @@
   "main": {
     "guidelines": {
       "title": "แนวทางการใช้",
-      "checkMaterial": "<0>อ่านข้อมูลเพิ่มเติม</0>เกี่ยวกับ {{ componentName }} ได้ที่หน้า {{ materialEquiv }} ของ Material Design ซึ่ง {{ componentName }} ใช้เป็นแรงบันดาลใจ"
+      "checkMaterial": "<0>อ่านข้อมูลเพิ่มเติม</0> เกี่ยวกับ {{ componentName }} ได้ที่หน้า {{ materialEquiv }} ของ Material Design ซึ่ง {{ componentName }} ใช้เป็นแรงบันดาลใจ"
     },
     "implementation": {
       "title": "การใช้ในโค้ด",

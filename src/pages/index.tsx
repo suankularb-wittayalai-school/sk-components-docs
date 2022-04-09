@@ -1,6 +1,5 @@
 // Modules
 import { NextPage } from "next";
-import Image from "next/image";
 import Head from "next/head";
 
 import { useTranslation } from "next-i18next";
@@ -47,8 +46,8 @@ const Index: NextPage = () => {
           <div className="layout-grid-cols-2">
             <Link href="/layouts">
               <a
-                className="container-secondary has-action--secondary before:rounded-8xl flex aspect-[3/1] items-center justify-center gap-2
-                  rounded-3xl font-display text-3xl font-bold"
+                className="container-secondary has-action--secondary flex aspect-[3/1] items-center justify-center gap-2 rounded-3xl
+                  font-display text-3xl font-bold before:rounded-3xl"
               >
                 <div className="text-6xl text-secondary">
                   <MaterialIcon icon="vertical_split" allowCustomSize />
@@ -58,8 +57,8 @@ const Index: NextPage = () => {
             </Link>
             <Link href="/components">
               <a
-                className="container-tertiary has-action--tertiary before:rounded-8xl flex aspect-[3/1] items-center justify-center gap-2
-                  rounded-3xl font-display text-3xl font-bold"
+                className="container-tertiary has-action--tertiary flex aspect-[3/1] items-center justify-center gap-2 rounded-3xl
+                  font-display text-3xl font-bold before:rounded-3xl"
               >
                 <div className="text-6xl text-tertiary">
                   <MaterialIcon icon="widgets" allowCustomSize />

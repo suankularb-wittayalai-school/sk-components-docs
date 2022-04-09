@@ -7,6 +7,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import ReactHtmlParser from "react-html-parser";
 
 // SK Components
 import {
@@ -127,18 +128,18 @@ const Components: NextPage = () => {
         />
       </ListSection>
       <MainSection>
-        <Section>
+        <Section className="leading-snug">
           <h2 className="font-display text-4xl font-bold">Button</h2>
           <p className="font-display text-xl text-on-surface-variant">
             Take action with Button.
           </p>
         </Section>
-        <Section>
+        <Section className="flex flex-col gap-3">
           <Header
             icon={<MaterialIcon icon="design_services" allowCustomSize />}
             text={t("main.guidelines.title")}
           />
-          <div className="markdown py-2">
+          <div className="markdown">
             <ReactMarkdown>
               {
                 "Buttons help people **initiate actions**, from sending an email, to sharing a document, to liking a post.\n\nChoose the **type of button** based on the _importance of the action_. The more important the action is, the more emphasis its button should have."
@@ -175,7 +176,7 @@ const Components: NextPage = () => {
             </CardSupportingText>
           </Card>
         </Section>
-        <Section>
+        <Section className="flex flex-col gap-3">
           <Header
             icon={<MaterialIcon icon="code" allowCustomSize />}
             text={t("main.implementation.title")}
@@ -201,10 +202,9 @@ const Components: NextPage = () => {
           <div className="grid aspect-[2/3] grid-rows-2 overflow-hidden rounded-lg shadow sm:aspect-[2/1] sm:grid-cols-2 sm:grid-rows-1">
             <div className="overflow-auto bg-surface">
               <div className="flex min-h-full min-w-full flex-col items-center justify-center gap-2">
-                <Button name="button" label="Filled button" type="filled" />
-                <Button name="button" label="Tonal button" type="tonal" />
-                <Button name="button" label="Outlined button" type="outlined" />
-                <Button name="button" label="Text button" type="text" />
+                {ReactHtmlParser(
+                  '<button aria-label="button" class="btn--filled"><span>Filled button</span></button><button aria-label="button" class="btn--tonal"><span>Tonal button</span></button><button aria-label="button" class="btn--outlined"><span>Outlined button</span></button><button aria-label="button" class="btn--text"><span>Text button</span></button>'
+                )}
               </div>
             </div>
             <div className="aspect-square overflow-y-scroll bg-surface-1">
