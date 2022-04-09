@@ -427,14 +427,16 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
               <CardSupportingText>
                 <div className="flex flex-row items-center gap-4">
                   <p className="grow">
-                    <span className="font-display text-lg font-bold">
-                      Found an issue?
-                    </span>{" "}
-                    Check out our GitHub and create an issue, if you wish. Thank
-                    you for your contribution!
+                    <Trans i18nKey="main.report.text" ns="components">
+                      <span className="font-display text-lg font-bold">
+                        Found an issue?
+                      </span>{" "}
+                      Check out our GitHub and create an issue, if you wish. Thank
+                      you for your contribution!
+                    </Trans>
                   </p>
                   <LinkButton
-                    name="Go to Material Design"
+                    name={t("main.report.buttonAlt")}
                     type="text"
                     iconOnly
                     icon={<MaterialIcon icon="open_in_new" />}
