@@ -38,6 +38,67 @@ import {
   ComponentListItem,
 } from "@utils/types";
 
+// Guidelines section
+const GuidelinesSection = ({
+  component,
+}: {
+  component: ComponentDetails;
+}): JSX.Element => {
+  const { t } = useTranslation("components");
+  const locale = useRouter().locale == "th" ? "th" : "en-US";
+
+  return (
+    <Section className="flex flex-col gap-3">
+      <Header
+        icon={<MaterialIcon icon="design_services" allowCustomSize />}
+        text={t("main.guidelines.title")}
+      />
+
+      {/* Body */}
+      <div className="markdown">
+        <ReactMarkdown>
+          {component.guidelines.body[locale] ||
+            component.guidelines.body["en-US"]}
+        </ReactMarkdown>
+      </div>
+
+      {/* Check Material */}
+      {component.guidelines.resources?.material && (
+        <Card type="stacked" appearance="outlined">
+          <CardSupportingText>
+            <div className="flex flex-row items-center gap-4">
+              <p className="grow">
+                <Trans i18nKey="main.guidelines.checkMaterial" ns="components">
+                  <span className="font-display text-lg font-bold">
+                    For more details,
+                  </span>{" "}
+                  check out Material Design 3’s{" "}
+                  {{
+                    materialEquiv:
+                      component.guidelines.resources?.material?.equiv,
+                  }}
+                  , which {{ componentName: component.name }} is based off of.
+                </Trans>
+              </p>
+              <LinkButton
+                name="Go to Material Design"
+                type="text"
+                iconOnly
+                icon={<MaterialIcon icon="open_in_new" />}
+                url={component.guidelines.resources?.material?.url}
+                attr={{
+                  target: "_blank",
+                  rel: "noreferrer",
+                }}
+              />
+            </div>
+          </CardSupportingText>
+        </Card>
+      )}
+    </Section>
+  );
+};
+
 // Page
 const Components: NextPage<{ componentList: ComponentList }> = ({
   componentList,
@@ -231,62 +292,7 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
               </Section>
 
               {/* Guidelines */}
-              <Section className="flex flex-col gap-3">
-                <Header
-                  icon={<MaterialIcon icon="design_services" allowCustomSize />}
-                  text={t("main.guidelines.title")}
-                />
-
-                {/* Body */}
-                <div className="markdown">
-                  <ReactMarkdown>
-                    {selectedComponent.guidelines.body[locale] ||
-                      selectedComponent.guidelines.body["en-US"]}
-                  </ReactMarkdown>
-                </div>
-
-                {/* Check Material */}
-                {selectedComponent.guidelines.resources?.material && (
-                  <Card type="stacked" appearance="outlined">
-                    <CardSupportingText>
-                      <div className="flex flex-row items-center gap-4">
-                        <p className="grow">
-                          <Trans
-                            i18nKey="main.guidelines.checkMaterial"
-                            ns="components"
-                          >
-                            <span className="font-display text-lg font-bold">
-                              For more details,
-                            </span>{" "}
-                            check out Material Design 3’s{" "}
-                            {{
-                              materialEquiv:
-                                selectedComponent.guidelines.resources?.material
-                                  ?.equiv,
-                            }}
-                            , which {{ componentName: selectedComponent.name }}{" "}
-                            is based off of.
-                          </Trans>
-                        </p>
-                        <LinkButton
-                          name="Go to Material Design"
-                          type="text"
-                          iconOnly
-                          icon={<MaterialIcon icon="open_in_new" />}
-                          url={
-                            selectedComponent.guidelines.resources?.material
-                              ?.url
-                          }
-                          attr={{
-                            target: "_blank",
-                            rel: "noreferrer",
-                          }}
-                        />
-                      </div>
-                    </CardSupportingText>
-                  </Card>
-                )}
-              </Section>
+              <GuidelinesSection component={selectedComponent} />
 
               {/* Implementation */}
               <Section className="flex flex-col gap-3">
