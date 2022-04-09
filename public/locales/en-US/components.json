@@ -15,6 +15,12 @@
     "properties": {
       "title": "Properties",
       "search": "Search properties",
+      "table": {
+        "name": "Properties",
+        "type": "Type",
+        "default": "Default",
+        "desc": "Description"
+      },
       "requiredFootnote": "<0></0><1>means required.</1>"
     },
     "report": {

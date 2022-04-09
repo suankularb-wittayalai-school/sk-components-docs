@@ -179,10 +179,10 @@ const PropertiesSection = ({
       <Table type="outlined" width={920}>
         <thead>
           <tr>
-            <th className="w-2/12">Property</th>
-            <th className="w-2/12">Type</th>
-            <th className="w-2/12">Default</th>
-            <th className="w-6/12">Description</th>
+            <th className="w-2/12">{t("main.properties.table.name")}</th>
+            <th className="w-2/12">{t("main.properties.table.type")}</th>
+            <th className="w-2/12">{t("main.properties.table.default")}</th>
+            <th className="w-6/12">{t("main.properties.table.desc")}</th>
           </tr>
         </thead>
         <tbody>
