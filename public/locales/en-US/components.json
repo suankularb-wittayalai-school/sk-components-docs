@@ -14,7 +14,8 @@
     },
     "properties": {
       "title": "Properties",
-      "search": "Search properties"
+      "search": "Search properties",
+      "requiredFootnote": "<0></0><1>means required.</1>"
     }
   }
 }

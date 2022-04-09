@@ -205,6 +205,12 @@ const PropertiesSection = ({
           ))}
         </tbody>
       </Table>
+      <div className="flex flex-row items-center justify-start gap-2">
+        <Trans i18nKey="main.properties.requiredFootnote" ns="components">
+          <div className="h-6 w-6 rounded bg-tertiary-container" />
+          <span>means required.</span>
+        </Trans>
+      </div>
     </Section>
   );
 };
