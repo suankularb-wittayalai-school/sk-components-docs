@@ -42,4 +42,17 @@ export type ComponentDetails = {
     html: string;
     react?: string;
   };
+  properties: Array<ComponentProperty>;
+};
+
+export type ComponentProperty = {
+  id: number;
+  name: string;
+  type: string;
+  desc: {
+    "en-US": string;
+    th?: string;
+  };
+  required?: boolean;
+  defaultValue?: string;
 };

@@ -77,6 +77,73 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
       react:
         '<Button\n  name="button"\n  label="Filled button"\n  type="filled"\n/>\n<Button\n  name="button"\n  label="Tonal button"\n  type="tonal"\n/>\n<Button\n  name="button"\n  label="Outlined button"\n  type="outlined"\n/>\n<Button\n  name="button"\n  label="Text button"\n  type="text"\n/>',
     },
+    properties: [
+      {
+        id: 0,
+        name: "name",
+        type: "string",
+        defaultValue: '""',
+        desc: {
+          "en-US": "The text label for screenreaders",
+        },
+      },
+      {
+        id: 1,
+        name: "label",
+        type: "string",
+        defaultValue: '""',
+        desc: {
+          "en-US": "The text in the button",
+        },
+      },
+      {
+        id: 2,
+        name: "type",
+        type: '"filled" | "outlined" | "text"',
+        required: true,
+        desc: {
+          "en-US": "The type of the button",
+        },
+      },
+      {
+        id: 3,
+        name: "iconOnly",
+        type: "boolean",
+        defaultValue: "false",
+        desc: {
+          "en-US": "Has only icon",
+        },
+      },
+      {
+        id: 4,
+        name: "icon",
+        type: "JSX.Element",
+        required: false,
+        desc: {
+          "en-US":
+            "An icon in the form of a JSX Element, will be placed in front of the text",
+        },
+      },
+      {
+        id: 5,
+        name: "isDangerous",
+        type: "boolean",
+        defaultValue: "false",
+        desc: {
+          "en-US":
+            "If the button triggers some dangerous action, makes Button have danger color",
+        },
+      },
+      {
+        id: 6,
+        name: "onClick",
+        type: "() => void",
+        required: false,
+        desc: {
+          "en-US": "Triggered on click",
+        },
+      },
+    ],
   });
 
   // Form controls
@@ -264,60 +331,53 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
                   </div>
                 </div>
               </Section>
+
+              {/* Properties */}
+              <Section className="flex flex-col gap-3">
+                <div className="layout-grid-cols-2 sm:items-end">
+                  <Header
+                    icon={<MaterialIcon icon="settings" allowCustomSize />}
+                    text={t("main.properties.title")}
+                  />
+                  <Search placeholder={t("main.properties.search")} />
+                </div>
+                <Table type="outlined" width={920}>
+                  <thead>
+                    <tr>
+                      <th className="w-2/12">Property</th>
+                      <th className="w-2/12">Type</th>
+                      <th className="w-2/12">Default</th>
+                      <th className="w-6/12">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedComponent.properties.map((property) => (
+                      <tr
+                        key={property.id}
+                        className={
+                          property.required ? "container-tertiary" : undefined
+                        }
+                      >
+                        <td className="font-mono" title={property.name}>
+                          {property.name}
+                        </td>
+                        <td className="font-mono" title={property.type}>
+                          <span className="max-lines-2">{property.type}</span>
+                        </td>
+                        <td className="font-mono" title={property.defaultValue}>
+                          <span className="max-lines-2">
+                            {property.defaultValue}
+                          </span>
+                        </td>
+                        <td className="!text-left">{property.desc[locale]}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Section>
             </>
           )}
 
-          {/* Properties */}
-          <Section className="flex flex-col gap-3">
-            <div className="layout-grid-cols-2 sm:items-end">
-              <Header
-                icon={<MaterialIcon icon="settings" allowCustomSize />}
-                text={t("main.properties.title")}
-              />
-              <Search placeholder={t("main.properties.search")} />
-            </div>
-            <Table type="outlined" width={920}>
-              <thead>
-                <tr>
-                  <th className="w-2/12">Property</th>
-                  <th className="w-2/12">Type</th>
-                  <th className="w-2/12">Default</th>
-                  <th className="w-6/12">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="font-mono">label</td>
-                  <td className="font-mono">string</td>
-                  <td className="font-mono">&quot;&quot;</td>
-                  <td className="!text-left">The text in the button</td>
-                </tr>
-                <tr className="container-tertiary">
-                  <td className="font-mono">type</td>
-                  <td
-                    className="font-mono"
-                    title={'"filled" | "outlined" | "text"'}
-                  >
-                    <span className="max-lines-2">
-                      &quot;filled&quot; | &quot;outlined&quot; |
-                      &quot;text&quot;
-                    </span>
-                  </td>
-                  <td className="font-mono"></td>
-                  <td className="!text-left">The text in the button</td>
-                </tr>
-                <tr>
-                  <td className="font-mono">isDangerous</td>
-                  <td className="font-mono">boolean</td>
-                  <td className="font-mono">false</td>
-                  <td className="!text-left">
-                    If the button triggers some dangerous action, makes Button
-                    have danger color
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </Section>
           <Section>
             <Card type="stacked" appearance="outlined">
               <CardSupportingText>
@@ -326,7 +386,8 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
                     <span className="font-display text-lg font-bold">
                       Found an issue?
                     </span>{" "}
-                    Check out our GitHub and create an issue, if you wish. Thank you for your contribution!
+                    Check out our GitHub and create an issue, if you wish. Thank
+                    you for your contribution!
                   </p>
                   <LinkButton
                     name="Go to Material Design"
