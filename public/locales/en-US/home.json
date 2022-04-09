@@ -1,7 +1,13 @@
 {
-  "title": "NextJS template",
   "welcome": {
     "title": "Welcome!",
-    "desc": "You successfully set up this Suankularb NextJS project. We look forward to what you are going to create!"
+    "subtitle": "Thanks for helping us develop Suankularb websites. Let’s get you started:",
+    "menu": {
+      "layouts": "Layouts",
+      "components": "Components"
+    }
+  },
+  "installation": {
+    "title": "Installation guide"
   }
 }

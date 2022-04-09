@@ -1,7 +1,7 @@
 // Modules
 import { NextPage } from "next";
-import Image from "next/image";
 import Head from "next/head";
+import Link from "next/link";
 
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -30,24 +30,48 @@ const Index: NextPage = () => {
             name={{ title: t("title") }}
             pageIcon={<MaterialIcon icon="home" />}
             backGoesTo="/"
+            className="sm:!hidden"
           />
         }
       >
         <Section>
-          <div className="relative aspect-[4/1] w-full overflow-hidden rounded-3xl">
-            <Image
-              src="/images/home/banner.webp"
-              layout="fill"
-              alt={t("welcome.banner")}
-            />
-          </div>
-        </Section>
-        <Section labelledBy="welcome">
           <Header
             icon={<MaterialIcon icon="waving_hand" allowCustomSize />}
             text={t("welcome.title")}
           />
-          <p>{t("welcome.desc")}</p>
+          <p className="font-display text-xl text-on-surface-variant">
+            {t("welcome.subtitle")}
+          </p>
+          <div className="layout-grid-cols-2">
+            <Link href="/layouts">
+              <a
+                className="container-secondary has-action--secondary flex aspect-[3/1] items-center justify-center gap-2 rounded-3xl
+                  font-display text-3xl font-bold before:rounded-3xl"
+              >
+                <div className="text-6xl text-secondary">
+                  <MaterialIcon icon="vertical_split" allowCustomSize />
+                </div>
+                <span>{t("welcome.menu.layouts")}</span>
+              </a>
+            </Link>
+            <Link href="/components">
+              <a
+                className="container-tertiary has-action--tertiary flex aspect-[3/1] items-center justify-center gap-2 rounded-3xl
+                  font-display text-3xl font-bold before:rounded-3xl"
+              >
+                <div className="text-6xl text-tertiary">
+                  <MaterialIcon icon="widgets" allowCustomSize />
+                </div>
+                <span>{t("welcome.menu.components")}</span>
+              </a>
+            </Link>
+          </div>
+        </Section>
+        <Section>
+          <Header
+            icon={<MaterialIcon icon="download" allowCustomSize />}
+            text={t("installation.title")}
+          />
         </Section>
       </RegularLayout>
     </>

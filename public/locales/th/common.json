@@ -1,11 +1,10 @@
 {
   "brand": {
-    "name": "แม่แบบ NextJS",
-    "school": "โรงเรียนสวนกุหลาบวิทยาลัย"
+    "name": "SK Components"
   },
   "navigation": {
     "home": "หน้าหลัก",
-    "login": "เข้าสู่ระบบ",
-    "about": "เกี่ยวกับ"
+    "layouts": "เลย์เอาท์",
+    "components": "คอมโพเนนท์"
   }
 }
