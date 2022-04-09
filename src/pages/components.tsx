@@ -99,6 +99,65 @@ const GuidelinesSection = ({
   );
 };
 
+// Implementation section
+const ImplementationSection = ({
+  component,
+  language,
+  setLanguage,
+}: {
+  component: ComponentDetails;
+  language: "html" | "react";
+  setLanguage: Function;
+}): JSX.Element => {
+  const { t } = useTranslation("components");
+  const locale = useRouter().locale == "th" ? "th" : "en-US";
+
+  return (
+    <Section className="flex flex-col gap-3">
+      <Header
+        icon={<MaterialIcon icon="code" allowCustomSize />}
+        text={t("main.implementation.title")}
+      />
+
+      {/* Select language */}
+      <ChipRadioGroup
+        choices={[
+          {
+            id: "html",
+            name: t("main.implementation.language.html"),
+          },
+          {
+            id: "react",
+            name: t("main.implementation.language.react"),
+          },
+        ]}
+        onChange={(e: "html" | "react") => setLanguage(e)}
+        value="html"
+        required
+      />
+
+      {/* Code Card */}
+      <div className="grid aspect-[2/3] grid-rows-2 overflow-hidden rounded-lg shadow sm:aspect-[2/1] sm:grid-cols-2 sm:grid-rows-1">
+        {/* Preview */}
+        <div className="overflow-auto bg-surface">
+          <div className="flex min-h-full min-w-full flex-col items-center justify-center gap-2">
+            {ReactHtmlParser(component.implementation.html)}
+          </div>
+        </div>
+
+        {/* Code */}
+        <div className="overflow-y-scroll bg-surface-1">
+          <code>
+            <pre className="whitespace-pre-wrap p-4 font-mono">
+              {component.implementation[language]}
+            </pre>
+          </code>
+        </div>
+      </div>
+    </Section>
+  );
+};
+
 // Page
 const Components: NextPage<{ componentList: ComponentList }> = ({
   componentList,
@@ -295,48 +354,11 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
               <GuidelinesSection component={selectedComponent} />
 
               {/* Implementation */}
-              <Section className="flex flex-col gap-3">
-                <Header
-                  icon={<MaterialIcon icon="code" allowCustomSize />}
-                  text={t("main.implementation.title")}
-                />
-
-                {/* Select language */}
-                <ChipRadioGroup
-                  choices={[
-                    {
-                      id: "html",
-                      name: t("main.implementation.language.html"),
-                    },
-                    {
-                      id: "react",
-                      name: t("main.implementation.language.react"),
-                    },
-                  ]}
-                  onChange={(e: "html" | "react") => setLanguage(e)}
-                  value="html"
-                  required
-                />
-
-                {/* Code Card */}
-                <div className="grid aspect-[2/3] grid-rows-2 overflow-hidden rounded-lg shadow sm:aspect-[2/1] sm:grid-cols-2 sm:grid-rows-1">
-                  {/* Preview */}
-                  <div className="overflow-auto bg-surface">
-                    <div className="flex min-h-full min-w-full flex-col items-center justify-center gap-2">
-                      {ReactHtmlParser(selectedComponent.implementation.html)}
-                    </div>
-                  </div>
-
-                  {/* Code */}
-                  <div className="overflow-y-scroll bg-surface-1">
-                    <code>
-                      <pre className="whitespace-pre-wrap p-4 font-mono">
-                        {selectedComponent.implementation[language]}
-                      </pre>
-                    </code>
-                  </div>
-                </div>
-              </Section>
+              <ImplementationSection
+                component={selectedComponent}
+                language={language}
+                setLanguage={setLanguage}
+              />
 
               {/* Properties */}
               <Section className="flex flex-col gap-3">
