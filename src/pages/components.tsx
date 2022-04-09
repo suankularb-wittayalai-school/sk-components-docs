@@ -1,5 +1,6 @@
 // Modules
 import { NextPage } from "next";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -39,7 +40,7 @@ import {
 const Components: NextPage<{ componentList: ComponentList }> = ({
   componentList,
 }) => {
-  const { t } = useTranslation("components");
+  const { t } = useTranslation(["components", "common"]);
   const locale = useRouter().locale == "th" ? "th" : "en-US";
 
   // List Layout control
@@ -70,7 +71,7 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
       },
     },
     implementation: {
-      html: '<button\n  aria-label="button"\n  class="btn--filled"\n>\n  <span>Filled button</span>\n</button>\n\n<button\n  aria-label="button"\n  class="btn--tonal"\n>\n  <span>Tonal button</span>\n</button>\n\n<button\n  aria-label="button"\n  class="btn--outlined"\n>\n  <span>Outlined button</span>\n</button>\n\n<button\n  aria-label="button"\n  class="btn--text"\n>\n  <span>Text button</span>\n</button>',
+      html: '<button\n  aria-label="button"\n  class="btn--filled"\n>\n  <span>Filled button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--tonal"\n>\n  <span>Tonal button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--outlined"\n>\n  <span>Outlined button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--text"\n>\n  <span>Text button</span>\n</button>',
       react:
         '<Button\n  name="button"\n  label="Filled button"\n  type="filled"\n/>\n<Button\n  name="button"\n  label="Tonal button"\n  type="tonal"\n/>\n<Button\n  name="button"\n  label="Outlined button"\n  type="outlined"\n/>\n<Button\n  name="button"\n  label="Text button"\n  type="text"\n/>',
     },
@@ -80,178 +81,192 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
   const [language, setLanguage] = useState<"html" | "react">("html");
 
   return (
-    <ListLayout
-      Title={
-        <Title
-          name={{ title: t("title") }}
-          pageIcon={<MaterialIcon icon="widgets" />}
-          backGoesTo={showMain ? () => setShowMain(false) : "/"}
-          LinkElement={Link}
-        />
-      }
-      show={showMain}
-    >
-      <ListSection>
-        <CardList
-          listGroups={componentList.map((componentGroup) => ({
-            ...componentGroup,
-            groupName:
-              componentGroup.groupName[locale] ||
-              componentGroup.groupName["en-US"],
-          }))}
-          ListItem={({
-            content,
-            className,
-            onClick,
-          }: {
-            content: ComponentListItem["content"];
-            className: string;
-            onClick: () => void;
-          }) => (
-            <button
-              className="w-full"
-              onClick={() => {
-                onClick();
-                setShowMain(true);
-              }}
-            >
-              <Card
-                type="horizontal"
-                appearance="tonal"
-                className={className}
-                hasAction
+    <>
+      <Head>
+        <title>
+          {selectedComponent ? selectedComponent.name : t("title")}
+          {" - "}
+          {t("brand.name", { ns: "common" })}
+        </title>
+      </Head>
+      <ListLayout
+        Title={
+          <Title
+            name={{ title: t("title") }}
+            pageIcon={<MaterialIcon icon="widgets" />}
+            backGoesTo={showMain ? () => setShowMain(false) : "/"}
+            LinkElement={Link}
+          />
+        }
+        show={showMain}
+      >
+        <ListSection>
+          <CardList
+            listGroups={componentList.map((componentGroup) => ({
+              ...componentGroup,
+              groupName:
+                componentGroup.groupName[locale] ||
+                componentGroup.groupName["en-US"],
+            }))}
+            ListItem={({
+              content,
+              className,
+              onClick,
+            }: {
+              content: ComponentListItem["content"];
+              className: string;
+              onClick: () => void;
+            }) => (
+              <button
+                className="w-full"
+                onClick={() => {
+                  onClick();
+                  setShowMain(true);
+                }}
               >
-                <div className="card__media" />
-                <CardHeader
-                  title={<h3 className="text-lg font-bold">{content.name}</h3>}
-                  label={content.subtitle[locale] || content.subtitle["en-US"]}
-                  className="font-display"
-                />
-              </Card>
-            </button>
-          )}
-          onChange={(id) => setSelectedID(id)}
-        />
-      </ListSection>
-      <MainSection>
-        {selectedComponent && (
-          <>
-            {/* Title */}
-            <Section className="leading-snug">
-              <h2 className="font-display text-4xl font-bold">
-                {selectedComponent.name}
-              </h2>
-              <p className="font-display text-xl text-on-surface-variant">
-                {selectedComponent.subtitle[locale] ||
-                  selectedComponent.subtitle["en-US"]}
-              </p>
-            </Section>
-
-            {/* Guidelines */}
-            <Section className="flex flex-col gap-3">
-              <Header
-                icon={<MaterialIcon icon="design_services" allowCustomSize />}
-                text={t("main.guidelines.title")}
-              />
-
-              {/* Body */}
-              <div className="markdown">
-                <ReactMarkdown>
-                  {selectedComponent.guidelines.body[locale] ||
-                    selectedComponent.guidelines.body["en-US"]}
-                </ReactMarkdown>
-              </div>
-
-              {/* Check Material */}
-              {selectedComponent.guidelines.resources?.material && (
-                <Card type="stacked" appearance="outlined">
-                  <CardSupportingText>
-                    <div className="flex flex-row items-center gap-4">
-                      <p className="grow">
-                        <Trans
-                          i18nKey="main.guidelines.checkMaterial"
-                          ns="components"
-                        >
-                          <span className="font-display text-lg font-bold">
-                            For more details,
-                          </span>{" "}
-                          check out Material Design 3’s{" "}
-                          {{
-                            materialEquiv:
-                              selectedComponent.guidelines.resources?.material
-                                ?.equiv,
-                          }}
-                          , which {{ componentName: selectedComponent.name }} is
-                          based off of.
-                        </Trans>
-                      </p>
-                      <LinkButton
-                        name="Go to Material Design"
-                        type="text"
-                        iconOnly
-                        icon={<MaterialIcon icon="open_in_new" />}
-                        url={
-                          selectedComponent.guidelines.resources?.material?.url
-                        }
-                        attr={{
-                          target: "_blank",
-                          rel: "noreferrer",
-                        }}
-                      />
-                    </div>
-                  </CardSupportingText>
+                <Card
+                  type="horizontal"
+                  appearance="tonal"
+                  className={className}
+                  hasAction
+                >
+                  <div className="card__media" />
+                  <CardHeader
+                    title={
+                      <h3 className="text-lg font-bold">{content.name}</h3>
+                    }
+                    label={
+                      content.subtitle[locale] || content.subtitle["en-US"]
+                    }
+                    className="font-display"
+                  />
                 </Card>
-              )}
-            </Section>
+              </button>
+            )}
+            onChange={(id) => setSelectedID(id)}
+          />
+        </ListSection>
 
-            {/* Implementation */}
-            <Section className="flex flex-col gap-3">
-              <Header
-                icon={<MaterialIcon icon="code" allowCustomSize />}
-                text={t("main.implementation.title")}
-              />
+        <MainSection>
+          {selectedComponent && (
+            <>
+              {/* Title */}
+              <Section className="leading-snug">
+                <h2 className="font-display text-4xl font-bold">
+                  {selectedComponent.name}
+                </h2>
+                <p className="font-display text-xl text-on-surface-variant">
+                  {selectedComponent.subtitle[locale] ||
+                    selectedComponent.subtitle["en-US"]}
+                </p>
+              </Section>
 
-              {/* Select language */}
-              <ChipRadioGroup
-                choices={[
-                  {
-                    id: "html",
-                    name: t("main.implementation.language.html"),
-                  },
-                  {
-                    id: "react",
-                    name: t("main.implementation.language.react"),
-                  },
-                ]}
-                onChange={(e: "html" | "react") => setLanguage(e)}
-                value="html"
-                required
-              />
+              {/* Guidelines */}
+              <Section className="flex flex-col gap-3">
+                <Header
+                  icon={<MaterialIcon icon="design_services" allowCustomSize />}
+                  text={t("main.guidelines.title")}
+                />
 
-              {/* Code Card */}
-              <div className="grid aspect-[2/3] grid-rows-2 overflow-hidden rounded-lg shadow sm:aspect-[2/1] sm:grid-cols-2 sm:grid-rows-1">
-                
-                {/* Preview */}
-                <div className="overflow-auto bg-surface">
-                  <div className="flex min-h-full min-w-full flex-col items-center justify-center gap-2">
-                    {ReactHtmlParser(selectedComponent.implementation.html)}
+                {/* Body */}
+                <div className="markdown">
+                  <ReactMarkdown>
+                    {selectedComponent.guidelines.body[locale] ||
+                      selectedComponent.guidelines.body["en-US"]}
+                  </ReactMarkdown>
+                </div>
+
+                {/* Check Material */}
+                {selectedComponent.guidelines.resources?.material && (
+                  <Card type="stacked" appearance="outlined">
+                    <CardSupportingText>
+                      <div className="flex flex-row items-center gap-4">
+                        <p className="grow">
+                          <Trans
+                            i18nKey="main.guidelines.checkMaterial"
+                            ns="components"
+                          >
+                            <span className="font-display text-lg font-bold">
+                              For more details,
+                            </span>{" "}
+                            check out Material Design 3’s{" "}
+                            {{
+                              materialEquiv:
+                                selectedComponent.guidelines.resources?.material
+                                  ?.equiv,
+                            }}
+                            , which {{ componentName: selectedComponent.name }}{" "}
+                            is based off of.
+                          </Trans>
+                        </p>
+                        <LinkButton
+                          name="Go to Material Design"
+                          type="text"
+                          iconOnly
+                          icon={<MaterialIcon icon="open_in_new" />}
+                          url={
+                            selectedComponent.guidelines.resources?.material
+                              ?.url
+                          }
+                          attr={{
+                            target: "_blank",
+                            rel: "noreferrer",
+                          }}
+                        />
+                      </div>
+                    </CardSupportingText>
+                  </Card>
+                )}
+              </Section>
+
+              {/* Implementation */}
+              <Section className="flex flex-col gap-3">
+                <Header
+                  icon={<MaterialIcon icon="code" allowCustomSize />}
+                  text={t("main.implementation.title")}
+                />
+
+                {/* Select language */}
+                <ChipRadioGroup
+                  choices={[
+                    {
+                      id: "html",
+                      name: t("main.implementation.language.html"),
+                    },
+                    {
+                      id: "react",
+                      name: t("main.implementation.language.react"),
+                    },
+                  ]}
+                  onChange={(e: "html" | "react") => setLanguage(e)}
+                  value="html"
+                  required
+                />
+
+                {/* Code Card */}
+                <div className="grid aspect-[2/3] grid-rows-2 overflow-hidden rounded-lg shadow sm:aspect-[2/1] sm:grid-cols-2 sm:grid-rows-1">
+                  {/* Preview */}
+                  <div className="overflow-auto bg-surface">
+                    <div className="flex min-h-full min-w-full flex-col items-center justify-center gap-2">
+                      {ReactHtmlParser(selectedComponent.implementation.html)}
+                    </div>
+                  </div>
+
+                  {/* Code */}
+                  <div className="aspect-square overflow-y-scroll bg-surface-1">
+                    <code>
+                      <pre className="whitespace-pre-wrap p-4 font-mono">
+                        {selectedComponent.implementation[language]}
+                      </pre>
+                    </code>
                   </div>
                 </div>
-
-                {/* Code */}
-                <div className="aspect-square overflow-y-scroll bg-surface-1">
-                  <code>
-                    <pre className="whitespace-pre-wrap p-4 font-mono">
-                      {selectedComponent.implementation[language]}
-                    </pre>
-                  </code>
-                </div>
-              </div>
-            </Section>
-          </>
-        )}
-      </MainSection>
-    </ListLayout>
+              </Section>
+            </>
+          )}
+        </MainSection>
+      </ListLayout>
+    </>
   );
 };
 
@@ -273,6 +288,16 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
         {
           id: 1,
           content: {
+            name: "Link Button",
+            subtitle: {
+              "en-US": "This user is going places.",
+              th: "พาผู้ใช้ไปหน้าต่างๆ",
+            },
+          },
+        },
+        {
+          id: 2,
+          content: {
             name: "FAB",
             subtitle: {
               "en-US": "A Page’s main action.",
@@ -286,7 +311,7 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
       groupName: { "en-US": "Chip", th: "ชิป" },
       content: [
         {
-          id: 2,
+          id: 3,
           content: {
             name: "Chip",
             subtitle: {
@@ -296,7 +321,7 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
           },
         },
         {
-          id: 3,
+          id: 4,
           content: {
             name: "Input Chip",
             subtitle: {
@@ -306,7 +331,7 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
           },
         },
         {
-          id: 4,
+          id: 5,
           content: {
             name: "Chip List",
             subtitle: {
@@ -316,7 +341,7 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
           },
         },
         {
-          id: 5,
+          id: 6,
           content: {
             name: "Chip Radio Group",
             subtitle: {
