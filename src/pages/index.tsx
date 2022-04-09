@@ -37,11 +37,10 @@ const Index: NextPage = () => {
         <Section>
           <Header
             icon={<MaterialIcon icon="waving_hand" allowCustomSize />}
-            text="Welcome!"
+            text={t("welcome.title")}
           />
           <p className="font-display text-xl text-on-surface-variant">
-            Thanks for helping us develop Suankularb websites. Let’s get you
-            started:
+            {t("welcome.subtitle")}
           </p>
           <div className="layout-grid-cols-2">
             <Link href="/layouts">
@@ -52,7 +51,7 @@ const Index: NextPage = () => {
                 <div className="text-6xl text-secondary">
                   <MaterialIcon icon="vertical_split" allowCustomSize />
                 </div>
-                <span>Layouts</span>
+                <span>{t("welcome.menu.layouts")}</span>
               </a>
             </Link>
             <Link href="/components">
@@ -63,7 +62,7 @@ const Index: NextPage = () => {
                 <div className="text-6xl text-tertiary">
                   <MaterialIcon icon="widgets" allowCustomSize />
                 </div>
-                <span>Components</span>
+                <span>{t("welcome.menu.components")}</span>
               </a>
             </Link>
           </div>
@@ -71,7 +70,7 @@ const Index: NextPage = () => {
         <Section>
           <Header
             icon={<MaterialIcon icon="download" allowCustomSize />}
-            text="Installation guide"
+            text={t("installation.title")}
           />
         </Section>
       </RegularLayout>
