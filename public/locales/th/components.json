@@ -8,9 +8,8 @@
     "implementation": {
       "title": "การใช้ในโค้ด",
       "language": {
-        "css": "CSS",
-        "reactJS": "React JavaScript",
-        "reactTS": "React TypeScript"
+        "html": "HTML",
+        "react": "React"
       }
     }
   }

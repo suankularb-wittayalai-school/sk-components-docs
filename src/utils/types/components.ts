@@ -18,3 +18,28 @@ export type ComponentListItem = {
     };
   };
 };
+
+export type ComponentDetails = {
+  id: number;
+  name: string;
+  subtitle: {
+    "en-US": string;
+    th?: string;
+  };
+  guidelines: {
+    body: {
+      "en-US": string;
+      th?: string;
+    };
+    resources?: {
+      material?: {
+        equiv: string;
+        url: string;
+      };
+    };
+  };
+  implementation: {
+    html: string;
+    react?: string;
+  };
+};

@@ -7,3 +7,9 @@
     @apply outline-none transition-colors [-webkit-tap-highlight-color:transparent];
   }
 }
+
+@layer components {
+  .markdown strong {
+    @apply font-display;
+  }
+}
