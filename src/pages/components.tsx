@@ -253,7 +253,7 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
                   </div>
 
                   {/* Code */}
-                  <div className="aspect-square overflow-y-scroll bg-surface-1">
+                  <div className="overflow-y-scroll bg-surface-1">
                     <code>
                       <pre className="whitespace-pre-wrap p-4 font-mono">
                         {selectedComponent.implementation[language]}
@@ -316,7 +316,7 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
             name: "Chip",
             subtitle: {
               "en-US": "Small buttons often together.",
-              th: "ปุ่มน้อยๆ อยู่หลายๆ",
+              th: "ปุ่มน้อยๆ มักอยู่เป็นกลุ่ม",
             },
           },
         },
