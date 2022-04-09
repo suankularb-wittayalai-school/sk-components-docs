@@ -11,6 +11,10 @@
         "html": "HTML",
         "react": "React"
       }
+    },
+    "properties": {
+      "title": "การปรับแต่งคุณสมบัติ",
+      "search": "ค้นหาคุณสมบัติ"
     }
   }
 }

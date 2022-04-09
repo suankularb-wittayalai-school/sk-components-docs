@@ -11,6 +11,10 @@
         "html": "HTML",
         "react": "React"
       }
+    },
+    "properties": {
+      "title": "Properties",
+      "search": "Search properties"
     }
   }
 }

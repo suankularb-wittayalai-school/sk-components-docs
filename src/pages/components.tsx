@@ -25,7 +25,9 @@ import {
   ListSection,
   MainSection,
   MaterialIcon,
+  Search,
   Section,
+  Table,
   Title,
 } from "@suankularb-components/react";
 
@@ -264,6 +266,83 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
               </Section>
             </>
           )}
+
+          {/* Properties */}
+          <Section className="flex flex-col gap-3">
+            <div className="layout-grid-cols-2 sm:items-end">
+              <Header
+                icon={<MaterialIcon icon="settings" allowCustomSize />}
+                text={t("main.properties.title")}
+              />
+              <Search placeholder={t("main.properties.search")} />
+            </div>
+            <Table type="outlined" width={920}>
+              <thead>
+                <tr>
+                  <th className="w-2/12">Property</th>
+                  <th className="w-2/12">Type</th>
+                  <th className="w-2/12">Default</th>
+                  <th className="w-6/12">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="font-mono">label</td>
+                  <td className="font-mono">string</td>
+                  <td className="font-mono">&quot;&quot;</td>
+                  <td className="!text-left">The text in the button</td>
+                </tr>
+                <tr className="container-tertiary">
+                  <td className="font-mono">type</td>
+                  <td
+                    className="font-mono"
+                    title={'"filled" | "outlined" | "text"'}
+                  >
+                    <span className="max-lines-2">
+                      &quot;filled&quot; | &quot;outlined&quot; |
+                      &quot;text&quot;
+                    </span>
+                  </td>
+                  <td className="font-mono"></td>
+                  <td className="!text-left">The text in the button</td>
+                </tr>
+                <tr>
+                  <td className="font-mono">isDangerous</td>
+                  <td className="font-mono">boolean</td>
+                  <td className="font-mono">false</td>
+                  <td className="!text-left">
+                    If the button triggers some dangerous action, makes Button
+                    have danger color
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </Section>
+          <Section>
+            <Card type="stacked" appearance="outlined">
+              <CardSupportingText>
+                <div className="flex flex-row items-center gap-4">
+                  <p className="grow">
+                    <span className="font-display text-lg font-bold">
+                      Found an issue?
+                    </span>{" "}
+                    Check out our GitHub and create an issue, if you wish. Thank you for your contribution!
+                  </p>
+                  <LinkButton
+                    name="Go to Material Design"
+                    type="text"
+                    iconOnly
+                    icon={<MaterialIcon icon="open_in_new" />}
+                    url="https://github.com/suankularb-wittayalai-school/sk-components-docs/issues/new/choose"
+                    attr={{
+                      target: "_blank",
+                      rel: "noreferrer",
+                    }}
+                  />
+                </div>
+              </CardSupportingText>
+            </Card>
+          </Section>
         </MainSection>
       </ListLayout>
     </>
