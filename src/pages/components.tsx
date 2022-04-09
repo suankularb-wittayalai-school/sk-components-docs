@@ -158,6 +158,57 @@ const ImplementationSection = ({
   );
 };
 
+// Properties section
+const PropertiesSection = ({
+  component,
+}: {
+  component: ComponentDetails;
+}): JSX.Element => {
+  const { t } = useTranslation("components");
+  const locale = useRouter().locale == "th" ? "th" : "en-US";
+
+  return (
+    <Section className="flex flex-col gap-3">
+      <div className="layout-grid-cols-2 sm:items-end">
+        <Header
+          icon={<MaterialIcon icon="settings" allowCustomSize />}
+          text={t("main.properties.title")}
+        />
+        <Search placeholder={t("main.properties.search")} />
+      </div>
+      <Table type="outlined" width={920}>
+        <thead>
+          <tr>
+            <th className="w-2/12">Property</th>
+            <th className="w-2/12">Type</th>
+            <th className="w-2/12">Default</th>
+            <th className="w-6/12">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {component.properties.map((property) => (
+            <tr
+              key={property.id}
+              className={property.required ? "container-tertiary" : undefined}
+            >
+              <td className="font-mono" title={property.name}>
+                {property.name}
+              </td>
+              <td className="font-mono" title={property.type}>
+                <span className="max-lines-2">{property.type}</span>
+              </td>
+              <td className="font-mono" title={property.defaultValue}>
+                <span className="max-lines-2">{property.defaultValue}</span>
+              </td>
+              <td className="!text-left">{property.desc[locale]}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </Section>
+  );
+};
+
 // Page
 const Components: NextPage<{ componentList: ComponentList }> = ({
   componentList,
@@ -361,48 +412,7 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
               />
 
               {/* Properties */}
-              <Section className="flex flex-col gap-3">
-                <div className="layout-grid-cols-2 sm:items-end">
-                  <Header
-                    icon={<MaterialIcon icon="settings" allowCustomSize />}
-                    text={t("main.properties.title")}
-                  />
-                  <Search placeholder={t("main.properties.search")} />
-                </div>
-                <Table type="outlined" width={920}>
-                  <thead>
-                    <tr>
-                      <th className="w-2/12">Property</th>
-                      <th className="w-2/12">Type</th>
-                      <th className="w-2/12">Default</th>
-                      <th className="w-6/12">Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedComponent.properties.map((property) => (
-                      <tr
-                        key={property.id}
-                        className={
-                          property.required ? "container-tertiary" : undefined
-                        }
-                      >
-                        <td className="font-mono" title={property.name}>
-                          {property.name}
-                        </td>
-                        <td className="font-mono" title={property.type}>
-                          <span className="max-lines-2">{property.type}</span>
-                        </td>
-                        <td className="font-mono" title={property.defaultValue}>
-                          <span className="max-lines-2">
-                            {property.defaultValue}
-                          </span>
-                        </td>
-                        <td className="!text-left">{property.desc[locale]}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Section>
+              <PropertiesSection component={selectedComponent} />
             </>
           )}
 
