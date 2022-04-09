@@ -200,7 +200,9 @@ const PropertiesSection = ({
               <td className="font-mono" title={property.defaultValue}>
                 <span className="max-lines-2">{property.defaultValue}</span>
               </td>
-              <td className="!text-left">{property.desc[locale]}</td>
+              <td className="!text-left">
+                {property.desc[locale] || property.desc["en-US"]}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -431,8 +433,8 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
                       <span className="font-display text-lg font-bold">
                         Found an issue?
                       </span>{" "}
-                      Check out our GitHub and create an issue, if you wish. Thank
-                      you for your contribution!
+                      Check out our GitHub and create an issue, if you wish.
+                      Thank you for your contribution!
                     </Trans>
                   </p>
                   <LinkButton
