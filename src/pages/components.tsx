@@ -1,6 +1,7 @@
 // Modules
 import { NextPage } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { Trans, useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -27,9 +28,15 @@ import {
   Title,
 } from "@suankularb-components/react";
 
+// Types
+import { ComponentList, ComponentListItem } from "@utils/types";
+
 // Page
-const Components: NextPage = () => {
+const Components: NextPage<{ componentList: ComponentList }> = ({
+  componentList,
+}) => {
   const { t } = useTranslation("components");
+  const locale = useRouter().locale == "th" ? "th" : "en-US";
   const [showMain, setShowMain] = useState<boolean>(false);
   const [selectedID, setSelectedID] = useState<number>();
 
@@ -47,61 +54,21 @@ const Components: NextPage = () => {
     >
       <ListSection>
         <CardList
-          listGroups={[
-            {
-              groupName: "Button",
-              content: [
-                {
-                  id: 0,
-                  content: {
-                    name: "Button",
-                    subtitle: "Take action with Button.",
-                  },
-                },
-                {
-                  id: 1,
-                  content: {
-                    name: "FAB",
-                    subtitle: "A Page’s main action.",
-                  },
-                },
-              ],
-            },
-            {
-              groupName: "Chip",
-              content: [
-                {
-                  id: 2,
-                  content: {
-                    name: "Chip",
-                    subtitle: "Small buttons often together.",
-                  },
-                },
-                {
-                  id: 3,
-                  content: {
-                    name: "Input Chip",
-                    subtitle: "Displayed user input.",
-                  },
-                },
-                {
-                  id: 4,
-                  content: {
-                    name: "Chip List",
-                    subtitle: "Chips together, at last.",
-                  },
-                },
-                {
-                  id: 5,
-                  content: {
-                    name: "Chip Radio Group",
-                    subtitle: "Choose your Chip.",
-                  },
-                },
-              ],
-            },
-          ]}
-          ListItem={({ content, className, onClick }) => (
+          listGroups={componentList.map((componentGroup) => ({
+            ...componentGroup,
+            groupName:
+              componentGroup.groupName[locale] ||
+              componentGroup.groupName["en-US"],
+          }))}
+          ListItem={({
+            content,
+            className,
+            onClick,
+          }: {
+            content: ComponentListItem["content"];
+            className: string;
+            onClick: () => void;
+          }) => (
             <button
               className="w-full"
               onClick={() => {
@@ -118,7 +85,7 @@ const Components: NextPage = () => {
                 <div className="card__media" />
                 <CardHeader
                   title={<h3 className="text-lg font-bold">{content.name}</h3>}
-                  label={content.subtitle}
+                  label={content.subtitle[locale] || content.subtitle["en-US"]}
                   className="font-display"
                 />
               </Card>
@@ -223,10 +190,86 @@ const Components: NextPage = () => {
   );
 };
 
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ["common", "components"])),
-  },
-});
+export const getStaticProps = async ({ locale }: { locale: string }) => {
+  const componentList: ComponentList = [
+    {
+      groupName: { "en-US": "Button", th: "ปุ่ม" },
+      content: [
+        {
+          id: 0,
+          content: {
+            name: "Button",
+            subtitle: {
+              "en-US": "Take action with Button.",
+              th: "เริ่มการกระทำด้วย Button",
+            },
+          },
+        },
+        {
+          id: 1,
+          content: {
+            name: "FAB",
+            subtitle: {
+              "en-US": "A Page’s main action.",
+              th: "การกระทำหลักของหน้า",
+            },
+          },
+        },
+      ],
+    },
+    {
+      groupName: { "en-US": "Chip", th: "ชิป" },
+      content: [
+        {
+          id: 2,
+          content: {
+            name: "Chip",
+            subtitle: {
+              "en-US": "Small buttons often together.",
+              th: "ปุ่มน้อยๆ อยู่หลายๆ",
+            },
+          },
+        },
+        {
+          id: 3,
+          content: {
+            name: "Input Chip",
+            subtitle: {
+              "en-US": "Displayed user input.",
+              th: "ชิปข้อมูลจากผู้ใช้",
+            },
+          },
+        },
+        {
+          id: 4,
+          content: {
+            name: "Chip List",
+            subtitle: {
+              "en-US": "Chips together, at last.",
+              th: "ชิปหลายๆ ภายใน Chip List",
+            },
+          },
+        },
+        {
+          id: 5,
+          content: {
+            name: "Chip Radio Group",
+            subtitle: {
+              "en-US": "Choose your Chip.",
+              th: "เลือกชิปที่ใช่",
+            },
+          },
+        },
+      ],
+    },
+  ];
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "components"])),
+      componentList,
+    },
+  };
+};
 
 export default Components;
