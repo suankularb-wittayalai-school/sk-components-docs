@@ -22,20 +22,37 @@ import {
 } from "@suankularb-components/react";
 
 // Types
-import { ComponentList, ComponentListItem } from "@utils/types";
+import {
+  ComponentDetails,
+  ComponentList,
+  ComponentListItem,
+} from "@utils/types";
 
 // Page
 const Layouts: NextPage<{ layoutList: ComponentList }> = ({ layoutList }) => {
   const { t } = useTranslation(["layouts", "common"]);
   const locale = useRouter().locale == "th" ? "th" : "en-US";
+
+  // List Layout control
   const [showMain, setShowMain] = useState<boolean>(false);
-  const [selectedID, setSelectedID] = useState<number>();
+  const [selectedID, setSelectedID] = useState<number | undefined>();
+
+  // Main content control
+  const [selectedComponent, setSelectedComponent] = useState<
+    ComponentDetails | undefined
+  >();
 
   return (
     <>
       <Head>
         <title>
-          {t("title")} - {t("brand.name", { ns: "common" })}
+          {showMain
+            ? selectedComponent
+              ? selectedComponent.name
+              : t("title")
+            : t("title")}
+          {" - "}
+          {t("brand.name", { ns: "common" })}
         </title>
       </Head>
       <ListLayout
@@ -90,9 +107,7 @@ const Layouts: NextPage<{ layoutList: ComponentList }> = ({ layoutList }) => {
             onChange={(id) => setSelectedID(id)}
           />
         </ListSection>
-        <MainSection>
-          <p>Layout</p>
-        </MainSection>
+        <MainSection>{selectedComponent && <p>Layout</p>}</MainSection>
       </ListLayout>
     </>
   );

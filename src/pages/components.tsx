@@ -334,7 +334,11 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
     <>
       <Head>
         <title>
-          {selectedComponent ? selectedComponent.name : t("title")}
+          {showMain
+            ? selectedComponent
+              ? selectedComponent.name
+              : t("title")
+            : t("title")}
           {" - "}
           {t("brand.name", { ns: "common" })}
         </title>
