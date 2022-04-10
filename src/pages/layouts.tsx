@@ -16,14 +16,16 @@ import {
   CardList,
   ListLayout,
   ListSection,
-  MainSection,
   MaterialIcon,
   Title,
 } from "@suankularb-components/react";
 
+// Components
+import ComponentDetails from "@components/ComponentDetails";
+
 // Types
 import {
-  ComponentDetails,
+  ComponentDetails as ComponentDetailsType,
   ComponentList,
   ComponentListItem,
 } from "@utils/types";
@@ -39,7 +41,7 @@ const Layouts: NextPage<{ layoutList: ComponentList }> = ({ layoutList }) => {
 
   // Main content control
   const [selectedComponent, setSelectedComponent] = useState<
-    ComponentDetails | undefined
+    ComponentDetailsType | undefined
   >();
 
   return (
@@ -107,7 +109,8 @@ const Layouts: NextPage<{ layoutList: ComponentList }> = ({ layoutList }) => {
             onChange={(id) => setSelectedID(id)}
           />
         </ListSection>
-        <MainSection>{selectedComponent && <p>Layout</p>}</MainSection>
+
+        <ComponentDetails component={selectedComponent} />
       </ListLayout>
     </>
   );
