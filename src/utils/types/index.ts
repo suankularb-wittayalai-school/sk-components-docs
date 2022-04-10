@@ -4,3 +4,4 @@ export type {
   ComponentListItem,
   ComponentDetails,
 } from "./components";
+export type { LayoutDetails } from "./layouts";
