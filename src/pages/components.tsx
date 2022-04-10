@@ -11,7 +11,7 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import ReactHtmlParser from "react-html-parser";
 
-import { db } from "@utils/firebaseConfig";
+import { db } from "@utils/firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 
 // SK Components
@@ -244,8 +244,7 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
       body: {
         "en-US":
           "Buttons help people **initiate actions**, from sending an email, to sharing a document, to liking a post.\n\nChoose the **type of button** based on the importance of the action. The more important the action is, the more emphasis its button should have.",
-        th:
-          "ปุ่มช่วยให้ผู้ใช้**เริ่มต้นการกระทำ**ตั้งแต่การส่งอีเมล ไปจนถึงการแชร์เอกสาร ไปจนถึงการกดถูกใจโพสต์\n\nเลือก**ประเภทของปุ่ม**ตามความสำคัญของการกระทำ การกระทำยิ่งสำคัญคือยิ่งปุ่มเน้นย้ำมากขึ้นเท่านั้น",
+        th: "ปุ่มช่วยให้ผู้ใช้**เริ่มต้นการกระทำ**ตั้งแต่การส่งอีเมล ไปจนถึงการแชร์เอกสาร ไปจนถึงการกดถูกใจโพสต์\n\nเลือก**ประเภทของปุ่ม**ตามความสำคัญของการกระทำ การกระทำยิ่งสำคัญคือยิ่งปุ่มเน้นย้ำมากขึ้นเท่านั้น",
       },
       resources: {
         material: {
@@ -255,8 +254,7 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
       },
     },
     implementation: {
-      html:
-        '<button\n  aria-label="button"\n  class="btn--filled"\n>\n  <span>Filled button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--tonal"\n>\n  <span>Tonal button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--outlined"\n>\n  <span>Outlined button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--text"\n>\n  <span>Text button</span>\n</button>',
+      html: '<button\n  aria-label="button"\n  class="btn--filled"\n>\n  <span>Filled button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--tonal"\n>\n  <span>Tonal button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--outlined"\n>\n  <span>Outlined button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--text"\n>\n  <span>Text button</span>\n</button>',
       react:
         '<Button\n  name="button"\n  label="Filled button"\n  type="filled"\n/>\n<Button\n  name="button"\n  label="Tonal button"\n  type="tonal"\n/>\n<Button\n  name="button"\n  label="Outlined button"\n  type="outlined"\n/>\n<Button\n  name="button"\n  label="Text button"\n  type="text"\n/>',
     },
@@ -463,14 +461,10 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
 };
 
 export const getStaticProps = async ({ locale }: { locale: string }) => {
-  // const groupRef = collection(db, "component_group");
+  const componentListRef = collection(db, "component_group");
+  const componentList = await getDocs(componentListRef);
 
-  // const componentGroups = await getDocs(groupRef);
-  // // console.log(await componentGroups.data());
-  // const componentGroupData = componentGroups.docs.map((group) => group.data());
-  // console.log(componentGroupData);
-
-  const componentList: ComponentList = [
+  const dummyComponentList: ComponentList = [
     {
       groupName: { "en-US": "Button", th: "ปุ่ม" },
       content: [
@@ -556,7 +550,8 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "components"])),
-      componentList,
+      componentList: componentList.docs.map((group) => group.data()),
+      // componentList: dummyComponentList,
     },
   };
 };
