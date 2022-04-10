@@ -462,103 +462,24 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
 
 export const getStaticProps = async ({ locale }: { locale: string }) => {
   const componentListRef = collection(db, "component_group");
-  const componentList = await getDocs(componentListRef);
+  const componentList = (await getDocs(componentListRef)).docs
+    .map((group) => group.data())
 
-  const dummyComponentList: ComponentList = [
-    {
-      groupName: { "en-US": "Button", th: "ปุ่ม" },
-      content: [
-        {
-          id: 0,
-          content: {
-            name: "Button",
-            subtitle: {
-              "en-US": "Take action with Button.",
-              th: "เริ่มการกระทำด้วย Button",
-            },
-          },
-        },
-        {
-          id: 1,
-          content: {
-            name: "Link Button",
-            subtitle: {
-              "en-US": "This user is going places.",
-              th: "พาผู้ใช้ไปหน้าต่างๆ",
-            },
-          },
-        },
-        {
-          id: 2,
-          content: {
-            name: "FAB",
-            subtitle: {
-              "en-US": "A Page’s main action.",
-              th: "การกระทำหลักของหน้า",
-            },
-          },
-        },
-      ],
-    },
-    {
-      groupName: { "en-US": "Chip", th: "ชิป" },
-      content: [
-        {
-          id: 3,
-          content: {
-            name: "Chip",
-            subtitle: {
-              "en-US": "Small buttons often together.",
-              th: "ปุ่มน้อยๆ มักอยู่เป็นกลุ่ม",
-            },
-          },
-        },
-        {
-          id: 4,
-          content: {
-            name: "Input Chip",
-            subtitle: {
-              "en-US": "Displayed user input.",
-              th: "ชิปข้อมูลจากผู้ใช้",
-            },
-          },
-        },
-        {
-          id: 5,
-          content: {
-            name: "Chip List",
-            subtitle: {
-              "en-US": "Chips together, at last.",
-              th: "ชิปหลายๆ ภายใน Chip List",
-            },
-          },
-        },
-        {
-          id: 6,
-          content: {
-            name: "Chip Radio Group",
-            subtitle: {
-              "en-US": "Choose your Chip.",
-              th: "เลือกชิปที่ใช่",
-            },
-          },
-        },
-      ],
-    },
-  ];
+    // Sort Component Group
+    .sort((a, b) => a.id - b.id)
+
+    // Sort Component List in every Component Group
+    .map((group) => ({
+      ...group,
+      content: group.content.sort(
+        (a: ComponentListItem, b: ComponentListItem) => a.id - b.id
+      ),
+    }));
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "components"])),
-      componentList: componentList.docs
-        .map((group) => group.data())
-        .sort((a, b) => a.id - b.id)
-        .map((group) => ({
-          ...group,
-          content: group.content.sort(
-            (a: ComponentListItem, b: ComponentListItem) => a.id - b.id
-          ),
-        })),
+      componentList,
     },
   };
 };
