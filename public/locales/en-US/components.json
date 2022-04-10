@@ -24,7 +24,7 @@
       "requiredFootnote": "<0></0><1>means required.</1>"
     },
     "report": {
-      "text": "<0>Found an issue?</0>Check out our GitHub and create an issue, if you wish. Thank you for your contribution!",
+      "text": "<0>Found an issue?</0> Check out our GitHub and create an issue, if you wish. Thank you for your contribution!",
       "buttonAlt": "Go to GitHub"
     }
   }

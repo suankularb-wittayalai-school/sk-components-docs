@@ -550,8 +550,15 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "components"])),
-      componentList: componentList.docs.map((group) => group.data()),
-      // componentList: dummyComponentList,
+      componentList: componentList.docs
+        .map((group) => group.data())
+        .sort((a, b) => a.id - b.id)
+        .map((group) => ({
+          ...group,
+          content: group.content.sort(
+            (a: ComponentListItem, b: ComponentListItem) => a.id - b.id
+          ),
+        })),
     },
   };
 };
