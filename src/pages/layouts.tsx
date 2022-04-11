@@ -47,22 +47,17 @@ const Layouts: NextPage<{ layoutList: ComponentList }> = ({ layoutList }) => {
     ComponentDetailsType | undefined
   >({
     id: 0,
-    name: "Button",
+    name: "List Layout",
     subtitle: {
-      "en-US": "Take action with Button.",
-      th: "เริ่มการกระทำด้วย Button",
+      "en-US": "Choose one to learn more.",
+      th: "อ่านเพิ่มเติมกรุณากดหนึ่ง",
     },
     guidelines: {
       body: {
         "en-US":
-          "Buttons help people **initiate actions**, from sending an email, to sharing a document, to liking a post.\n\nChoose the **type of button** based on the importance of the action. The more important the action is, the more emphasis its button should have.",
-        th: "ปุ่มช่วยให้ผู้ใช้**เริ่มต้นการกระทำ**ตั้งแต่การส่งอีเมล ไปจนถึงการแชร์เอกสาร ไปจนถึงการกดถูกใจโพสต์\n\nเลือก**ประเภทของปุ่ม**ตามความสำคัญของการกระทำ การกระทำยิ่งสำคัญคือยิ่งปุ่มเน้นย้ำมากขึ้นเท่านั้น",
-      },
-      resources: {
-        material: {
-          equiv: "Button",
-          url: "https://m3.material.io/components/buttons/overview",
-        },
+          "List Layout save space for content with a repeating structure by splitting the page into two. The user can select an item from the list on the left (see [List Section](#)), and content related to that item is shown on the right (see [Main Section](#)).\n\nExamples include a list of teachers wherein the Main Section displays contact information.",
+        th:
+          "List Layout ช่วยประหยัดพื้นที่สำหรับเนื้อหาที่มีโครงสร้างซ้ำๆ โดยแบ่งหน้าออกเป็น 2 ส่วน ผู้ใช้สามารถเลือกจากรายการทางด้านซ้าย (ดู [List Section](#)) และเนื้อหาที่เกี่ยวข้องกับรายการนั้นจะแสดงทางด้านขวา (ดู [Main Section](#))\n\nยกตัวอย่างเช่น รายชื่อคุณครูในโรงเรียน โดยใช้ส่วนหลักแสดงข้อมูลการติดต่อ",
       },
     },
     structure:
