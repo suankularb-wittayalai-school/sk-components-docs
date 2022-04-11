@@ -27,7 +27,7 @@ const Index: NextPage = () => {
       <RegularLayout
         Title={
           <Title
-            name={{ title: t("title") }}
+            name={{ title: t("brand.name", { ns: "common" }) }}
             pageIcon={<MaterialIcon icon="home" />}
             backGoesTo="/"
             className="sm:!hidden"
