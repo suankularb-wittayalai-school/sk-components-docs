@@ -98,7 +98,7 @@ const StructureSection = ({
   const { t } = useTranslation("components");
 
   return (
-    <Section>
+    <Section className="flex flex-col gap-3">
       <Header
         icon={<MaterialIcon icon="account_tree" allowCustomSize />}
         text={t("main.structure.title")}
