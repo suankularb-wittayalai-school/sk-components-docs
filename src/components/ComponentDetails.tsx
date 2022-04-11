@@ -30,9 +30,11 @@ import { ComponentDetails as ComponentDetailsType } from "@utils/types";
 
 // Guidelines section
 const GuidelinesSection = ({
-  component,
+  content,
+  componentName,
 }: {
-  component: ComponentDetailsType;
+  content: ComponentDetailsType["guidelines"];
+  componentName: string;
 }): JSX.Element => {
   const { t } = useTranslation("components");
   const locale = useRouter().locale == "th" ? "th" : "en-US";
@@ -47,13 +49,12 @@ const GuidelinesSection = ({
       {/* Body */}
       <div className="markdown">
         <ReactMarkdown>
-          {component.guidelines.body[locale] ||
-            component.guidelines.body["en-US"]}
+          {content.body[locale] || content.body["en-US"]}
         </ReactMarkdown>
       </div>
 
       {/* Check Material */}
-      {component.guidelines.resources?.material && (
+      {content.resources?.material && (
         <Card type="stacked" appearance="outlined">
           <CardSupportingText>
             <div className="flex flex-row items-center gap-4">
@@ -64,10 +65,9 @@ const GuidelinesSection = ({
                   </span>{" "}
                   check out Material Design 3’s{" "}
                   {{
-                    materialEquiv:
-                      component.guidelines.resources?.material?.equiv,
+                    materialEquiv: content.resources?.material?.equiv,
                   }}
-                  , which {{ componentName: component.name }} is based off of.
+                  , which {{ componentName }} is based off of.
                 </Trans>
               </p>
               <LinkButton
@@ -75,7 +75,7 @@ const GuidelinesSection = ({
                 type="text"
                 iconOnly
                 icon={<MaterialIcon icon="open_in_new" />}
-                url={component.guidelines.resources?.material?.url}
+                url={content.resources?.material?.url}
                 attr={{
                   target: "_blank",
                   rel: "noreferrer",
@@ -103,9 +103,7 @@ const StructureSection = ({
         icon={<MaterialIcon icon="account_tree" allowCustomSize />}
         text={t("main.structure.title")}
       />
-      <CodeBlock language="jsx">
-        {content}
-      </CodeBlock>
+      <CodeBlock language="jsx">{content}</CodeBlock>
     </Section>
   );
 };
@@ -159,7 +157,7 @@ const ImplementationSection = ({
         {/* Code */}
         <div className="overflow-y-scroll bg-surface-1">
           <CodeBlock language="html" hasSharpCorners>
-              {content && content[language]}
+            {content && content[language]}
           </CodeBlock>
         </div>
       </div>
@@ -169,9 +167,9 @@ const ImplementationSection = ({
 
 // Properties section
 const PropertiesSection = ({
-  component,
+  content,
 }: {
-  component: ComponentDetailsType;
+  content: ComponentDetailsType["properties"];
 }): JSX.Element => {
   const { t } = useTranslation("components");
   const locale = useRouter().locale == "th" ? "th" : "en-US";
@@ -195,7 +193,7 @@ const PropertiesSection = ({
           </tr>
         </thead>
         <tbody>
-          {component.properties.map((property) => (
+          {content.map((property) => (
             <tr
               key={property.id}
               className={property.required ? "container-tertiary" : undefined}
@@ -252,7 +250,10 @@ const ComponentDetails = ({
           </Section>
 
           {/* Guidelines */}
-          <GuidelinesSection component={component} />
+          <GuidelinesSection
+            content={component.guidelines}
+            componentName={component.name}
+          />
 
           {/* Structure */}
           {component.structure && (
@@ -269,7 +270,7 @@ const ComponentDetails = ({
           )}
 
           {/* Properties */}
-          <PropertiesSection component={component} />
+          <PropertiesSection content={component.properties} />
         </>
       )}
       <Section>
