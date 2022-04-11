@@ -9,6 +9,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { useState } from "react";
 
+import { db } from "@utils/firebase-config";
+import { collection, getDocs } from "firebase/firestore";
+
 // SK Components
 import {
   Card,
@@ -117,63 +120,26 @@ const Layouts: NextPage<{ layoutList: ComponentList }> = ({ layoutList }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const layoutList: ComponentList = [
-    {
-      groupName: { "en-US": "Page Layout" },
-      content: [
-        {
-          id: 0,
-          content: {
-            name: "Page Layout",
-            subtitle: { "en-US": "The layout for all pages." },
-          },
-        },
-      ],
-    },
-    {
-      groupName: { "en-US": "Content Layout" },
-      content: [
-        {
-          id: 1,
-          content: {
-            name: "Content Layout",
-            subtitle: { "en-US": "Page with sections." },
-          },
-        },
-      ],
-    },
-    {
-      groupName: { "en-US": "List Layout" },
-      content: [
-        {
-          id: 2,
-          content: {
-            name: "List Layout",
-            subtitle: { "en-US": "Choose one to learn more." },
-          },
-        },
-        {
-          id: 3,
-          content: {
-            name: "List Section",
-            subtitle: { "en-US": "All the Cards!" },
-          },
-        },
-        {
-          id: 4,
-          content: {
-            name: "Main Section",
-            subtitle: { "en-US": "All the details!" },
-          },
-        },
-      ],
-    },
-  ];
+  const layoutListRef = collection(db, "layout_group");
+  const layoutList = (await getDocs(layoutListRef)).docs
+    .map((group) => group.data())
+
+    // Sort Layout Group
+    .sort((a, b) => a.id - b.id)
+
+    // Sort Layout List in every Layout Group
+    .map((group) => ({
+      ...group,
+      content: group.content.sort(
+        (a: ComponentListItem, b: ComponentListItem) => a.id - b.id
+      ),
+    }));
 
   return {
     props: {
       ...(await serverSideTranslations(locale as string, [
         "common",
+        "components",
         "layouts",
       ])),
       layoutList,
