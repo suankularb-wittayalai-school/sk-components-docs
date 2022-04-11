@@ -45,7 +45,58 @@ const Layouts: NextPage<{ layoutList: ComponentList }> = ({ layoutList }) => {
   // Main content control
   const [selectedComponent, setSelectedComponent] = useState<
     ComponentDetailsType | undefined
-  >();
+  >({
+    id: 0,
+    name: "Button",
+    subtitle: {
+      "en-US": "Take action with Button.",
+      th: "เริ่มการกระทำด้วย Button",
+    },
+    guidelines: {
+      body: {
+        "en-US":
+          "Buttons help people **initiate actions**, from sending an email, to sharing a document, to liking a post.\n\nChoose the **type of button** based on the importance of the action. The more important the action is, the more emphasis its button should have.",
+        th: "ปุ่มช่วยให้ผู้ใช้**เริ่มต้นการกระทำ**ตั้งแต่การส่งอีเมล ไปจนถึงการแชร์เอกสาร ไปจนถึงการกดถูกใจโพสต์\n\nเลือก**ประเภทของปุ่ม**ตามความสำคัญของการกระทำ การกระทำยิ่งสำคัญคือยิ่งปุ่มเน้นย้ำมากขึ้นเท่านั้น",
+      },
+      resources: {
+        material: {
+          equiv: "Button",
+          url: "https://m3.material.io/components/buttons/overview",
+        },
+      },
+    },
+    structure:
+      "<ListLayout\n  // ...\n>\n  <ListSection>\n    <CardList\n      // ...\n    />\n  </ListSection>\n  <MainSection>\n    <Section>\n      ...\n    </Section>\n    <Section>\n      ...\n    </Section>\n  </MainSection>\n</ListLayout>",
+    properties: [
+      {
+        id: 0,
+        name: "Title",
+        type: "Title",
+        required: true,
+        desc: {
+          "en-US": "Title element",
+        },
+      },
+      {
+        id: 1,
+        name: "show",
+        type: "boolean",
+        required: true,
+        desc: {
+          "en-US": "If the Main Section is currently visible on mobile or not",
+        },
+      },
+      {
+        id: 2,
+        name: "children",
+        type: "boolean",
+        required: true,
+        desc: {
+          "en-US": "Must consist of `ListSection` and `MainSection`",
+        },
+      },
+    ],
+  });
 
   return (
     <>

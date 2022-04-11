@@ -1,8 +1,14 @@
+// Modules
+import { useRouter } from "next/router";
+
 import { Trans, useTranslation } from "next-i18next";
+
+import { useState } from "react";
 
 import ReactMarkdown from "react-markdown";
 import ReactHtmlParser from "react-html-parser";
 
+// SK Components
 import {
   Card,
   CardSupportingText,
@@ -16,9 +22,11 @@ import {
   Table,
 } from "@suankularb-components/react";
 
+// Components
+import CodeBlock from "@components/CodeBlock";
+
+// Types
 import { ComponentDetails as ComponentDetailsType } from "@utils/types";
-import { useRouter } from "next/router";
-import { useState } from "react";
 
 // Guidelines section
 const GuidelinesSection = ({
@@ -81,13 +89,34 @@ const GuidelinesSection = ({
   );
 };
 
+// Structure section
+const StructureSection = ({
+  content,
+}: {
+  content: ComponentDetailsType["structure"];
+}): JSX.Element => {
+  const { t } = useTranslation("components");
+
+  return (
+    <Section>
+      <Header
+        icon={<MaterialIcon icon="account_tree" allowCustomSize />}
+        text={t("main.structure.title")}
+      />
+      <CodeBlock language="jsx">
+        {content}
+      </CodeBlock>
+    </Section>
+  );
+};
+
 // Implementation section
 const ImplementationSection = ({
-  component,
+  content,
   language,
   setLanguage,
 }: {
-  component: ComponentDetailsType;
+  content: ComponentDetailsType["implementation"];
   language: "html" | "react";
   setLanguage: Function;
 }): JSX.Element => {
@@ -123,17 +152,15 @@ const ImplementationSection = ({
         {/* Preview */}
         <div className="overflow-auto bg-surface">
           <div className="flex min-h-full min-w-full flex-col items-center justify-center gap-2">
-            {ReactHtmlParser(component.implementation.html)}
+            {content && ReactHtmlParser(content.html)}
           </div>
         </div>
 
         {/* Code */}
         <div className="overflow-y-scroll bg-surface-1">
-          <code>
-            <pre className="whitespace-pre-wrap p-4 font-mono">
-              {component.implementation[language]}
-            </pre>
-          </code>
+          <CodeBlock language="html" hasSharpCorners>
+              {content && content[language]}
+          </CodeBlock>
         </div>
       </div>
     </Section>
@@ -223,14 +250,24 @@ const ComponentDetails = ({
               {component.subtitle[locale] || component.subtitle["en-US"]}
             </p>
           </Section>
+
           {/* Guidelines */}
           <GuidelinesSection component={component} />
+
+          {/* Structure */}
+          {component.structure && (
+            <StructureSection content={component.structure} />
+          )}
+
           {/* Implementation */}
-          <ImplementationSection
-            component={component}
-            language={language}
-            setLanguage={setLanguage}
-          />
+          {component.implementation && (
+            <ImplementationSection
+              content={component.implementation}
+              language={language}
+              setLanguage={setLanguage}
+            />
+          )}
+
           {/* Properties */}
           <PropertiesSection component={component} />
         </>

@@ -5,6 +5,9 @@
       "title": "Guidelines",
       "checkMaterial": "<0>For more details,</0> check out Material Design 3’s {{ materialEquiv }}, which {{ componentName }} is based off of."
     },
+    "structure": {
+      "title": "Structure"
+    },
     "implementation": {
       "title": "Implementation",
       "language": {

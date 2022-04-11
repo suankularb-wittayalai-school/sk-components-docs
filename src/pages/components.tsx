@@ -1,5 +1,5 @@
 // Modules
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -218,7 +218,7 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
   );
 };
 
-export const getStaticProps = async ({ locale }: { locale: string }) => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   const componentListRef = collection(db, "component_group");
   const componentList = (await getDocs(componentListRef)).docs
     .map((group) => group.data())
@@ -236,7 +236,10 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "components"])),
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "components",
+      ])),
       componentList,
     },
   };

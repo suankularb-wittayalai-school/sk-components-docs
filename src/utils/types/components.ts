@@ -38,7 +38,8 @@ export type ComponentDetails = {
       };
     };
   };
-  implementation: {
+  structure?: string;
+  implementation?: {
     html: string;
     react?: string;
   };

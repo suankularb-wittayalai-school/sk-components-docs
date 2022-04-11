@@ -1,5 +1,5 @@
 // Modules
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -78,9 +78,9 @@ const Index: NextPage = () => {
   );
 };
 
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ["common", "home"])),
+    ...(await serverSideTranslations(locale as string, ["common", "home"])),
   },
 });
 
