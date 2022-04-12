@@ -6,5 +6,6 @@
     "home": "Home",
     "layouts": "Layouts",
     "components": "Components"
-  }
+  },
+  "loading": "Loading…"
 }

@@ -19,6 +19,7 @@ import {
   CardList,
   ListLayout,
   ListSection,
+  MainSection,
   MaterialIcon,
   Title,
 } from "@suankularb-components/react";
@@ -140,7 +141,13 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
           />
         </ListSection>
 
-        <ComponentDetails component={selectedComponent} />
+        {selectedComponent ? (
+          <ComponentDetails component={selectedComponent} />
+        ) : (
+          <MainSection>
+            <p>{t("loading", { ns: "common" })}</p>
+          </MainSection>
+        )}
       </ListLayout>
     </>
   );
