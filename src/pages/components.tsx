@@ -7,10 +7,10 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { db } from "@utils/firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 // SK Components
 import {
@@ -42,104 +42,32 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
 
   // List Layout control
   const [showMain, setShowMain] = useState<boolean>(false);
-  const [selectedID, setSelectedID] = useState<number | undefined>();
+  const [selectedID, setSelectedID] = useState<number>(0);
 
   // Main content control
-  const [selectedComponent, setSelectedComponent] = useState<
-    ComponentDetailsType | undefined
-  >({
-    id: 0,
-    name: "Button",
-    subtitle: {
-      "en-US": "Take action with Button.",
-      th: "เริ่มการกระทำด้วย Button",
-    },
-    guidelines: {
-      body: {
-        "en-US":
-          "Buttons help people **initiate actions**, from sending an email, to sharing a document, to liking a post.\n\nChoose the **type of button** based on the importance of the action. The more important the action is, the more emphasis its button should have.",
-        th: "ปุ่มช่วยให้ผู้ใช้**เริ่มต้นการกระทำ**ตั้งแต่การส่งอีเมล ไปจนถึงการแชร์เอกสาร ไปจนถึงการกดถูกใจโพสต์\n\nเลือก**ประเภทของปุ่ม**ตามความสำคัญของการกระทำ การกระทำยิ่งสำคัญคือยิ่งปุ่มเน้นย้ำมากขึ้นเท่านั้น",
-      },
-      resources: {
-        material: {
-          equiv: "Button",
-          url: "https://m3.material.io/components/buttons/overview",
-        },
-      },
-    },
-    implementation: {
-      html: '<button\n  aria-label="button"\n  class="btn--filled"\n>\n  <span>Filled button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--tonal"\n>\n  <span>Tonal button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--outlined"\n>\n  <span>Outlined button</span>\n</button>\n<button\n  aria-label="button"\n  class="btn--text"\n>\n  <span>Text button</span>\n</button>',
-      react:
-        '<Button\n  name="button"\n  label="Filled button"\n  type="filled"\n/>\n<Button\n  name="button"\n  label="Tonal button"\n  type="tonal"\n/>\n<Button\n  name="button"\n  label="Outlined button"\n  type="outlined"\n/>\n<Button\n  name="button"\n  label="Text button"\n  type="text"\n/>',
-    },
-    properties: [
-      {
-        id: 0,
-        name: "name",
-        type: "string",
-        defaultValue: '""',
-        desc: {
-          "en-US": "The text label for screenreaders",
-        },
-      },
-      {
-        id: 1,
-        name: "label",
-        type: "string",
-        defaultValue: '""',
-        desc: {
-          "en-US": "The text in the button",
-        },
-      },
-      {
-        id: 2,
-        name: "type",
-        type: '"filled" | "outlined" | "text"',
-        required: true,
-        desc: {
-          "en-US": "The type of the button",
-        },
-      },
-      {
-        id: 3,
-        name: "iconOnly",
-        type: "boolean",
-        defaultValue: "false",
-        desc: {
-          "en-US": "Has only icon",
-        },
-      },
-      {
-        id: 4,
-        name: "icon",
-        type: "JSX.Element",
-        required: false,
-        desc: {
-          "en-US":
-            "An icon in the form of a JSX Element, will be placed in front of the text",
-        },
-      },
-      {
-        id: 5,
-        name: "isDangerous",
-        type: "boolean",
-        defaultValue: "false",
-        desc: {
-          "en-US":
-            "If the button triggers some dangerous action, makes Button have danger color",
-        },
-      },
-      {
-        id: 6,
-        name: "onClick",
-        type: "() => void",
-        required: false,
-        desc: {
-          "en-US": "Triggered on click",
-        },
-      },
-    ],
-  });
+  const [selectedComponent, setSelectedComponent] = useState<any>();
+
+  // Fetch Component details when selected ID changes
+  useEffect(() => {
+    if (selectedID != undefined) {
+      // Finds the reference string that matches the selected ID
+      const componentRefString = componentList
+        .map((item) => item.content)
+        .flat()
+        .find((item) => selectedID == item.id)?.componentRef;
+
+      // Create a Firebase Reference with the reference string
+      const componentRef = componentRefString
+        ? doc(db, "component", componentRefString)
+        : undefined;
+
+      // Fetch from Firebase and set the selected Component if exists
+      componentRef &&
+        getDoc(componentRef).then((res) =>
+          setSelectedComponent(res.exists() ? res.data() : undefined)
+        );
+    }
+  }, [componentList, selectedID]);
 
   return (
     <>

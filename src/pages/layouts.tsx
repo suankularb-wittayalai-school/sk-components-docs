@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { db } from "@utils/firebase-config";
 import { collection, getDocs } from "firebase/firestore";
@@ -92,6 +92,8 @@ const Layouts: NextPage<{ layoutList: ComponentList }> = ({ layoutList }) => {
       },
     ],
   });
+
+  useEffect(() => console.log(layoutList))
 
   return (
     <>
