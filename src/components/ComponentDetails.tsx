@@ -156,7 +156,7 @@ const ImplementationSection = ({
 
         {/* Code */}
         <div className="overflow-y-scroll bg-surface-1">
-          <CodeBlock language="html" hasSharpCorners>
+          <CodeBlock language={language == "html" ? "html" : "jsx"} hasSharpCorners>
             {content && content[language]}
           </CodeBlock>
         </div>
