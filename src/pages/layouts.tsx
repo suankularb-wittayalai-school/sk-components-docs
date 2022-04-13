@@ -10,7 +10,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect, useState } from "react";
 
 import { db } from "@utils/firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 // SK Components
 import {
@@ -19,6 +19,7 @@ import {
   CardList,
   ListLayout,
   ListSection,
+  MainSection,
   MaterialIcon,
   Title,
 } from "@suankularb-components/react";
@@ -40,60 +41,37 @@ const Layouts: NextPage<{ layoutList: ComponentList }> = ({ layoutList }) => {
 
   // List Layout control
   const [showMain, setShowMain] = useState<boolean>(false);
-  const [selectedID, setSelectedID] = useState<number | undefined>();
+  const [selectedID, setSelectedID] = useState<number>(0);
 
   // Main content control
   const [selectedComponent, setSelectedComponent] = useState<
     ComponentDetailsType | undefined
-  >({
-    id: 0,
-    name: "List Layout",
-    subtitle: {
-      "en-US": "Choose one to learn more.",
-      th: "อ่านเพิ่มเติมกรุณากดหนึ่ง",
-    },
-    guidelines: {
-      body: {
-        "en-US":
-          "List Layout save space for content with a repeating structure by splitting the page into two. The user can select an item from the list on the left (see [List Section](#)), and content related to that item is shown on the right (see [Main Section](#)).\n\nExamples include a list of teachers wherein the Main Section displays contact information.",
-        th:
-          "List Layout ช่วยประหยัดพื้นที่สำหรับเนื้อหาที่มีโครงสร้างซ้ำๆ โดยแบ่งหน้าออกเป็น 2 ส่วน ผู้ใช้สามารถเลือกจากรายการทางด้านซ้าย (ดู [List Section](#)) และเนื้อหาที่เกี่ยวข้องกับรายการนั้นจะแสดงทางด้านขวา (ดู [Main Section](#))\n\nยกตัวอย่างเช่น รายชื่อคุณครูในโรงเรียน โดยใช้ส่วนหลักแสดงข้อมูลการติดต่อ",
-      },
-    },
-    structure:
-      "<ListLayout\n  // ...\n>\n  <ListSection>\n    <CardList\n      // ...\n    />\n  </ListSection>\n  <MainSection>\n    <Section>\n      ...\n    </Section>\n    <Section>\n      ...\n    </Section>\n  </MainSection>\n</ListLayout>",
-    properties: [
-      {
-        id: 0,
-        name: "Title",
-        type: "Title",
-        required: true,
-        desc: {
-          "en-US": "Title element",
-        },
-      },
-      {
-        id: 1,
-        name: "show",
-        type: "boolean",
-        required: true,
-        desc: {
-          "en-US": "If the Main Section is currently visible on mobile or not",
-        },
-      },
-      {
-        id: 2,
-        name: "children",
-        type: "boolean",
-        required: true,
-        desc: {
-          "en-US": "Must consist of `ListSection` and `MainSection`",
-        },
-      },
-    ],
-  });
+  >();
 
-  useEffect(() => console.log(layoutList))
+  // Fetch Layout details when selected ID changes
+  useEffect(() => {
+    // Finds the reference string that matches the selected ID
+    const layoutRefString = layoutList
+      .map((item) => item.content)
+      .flat()
+      .find((item) => selectedID == item.id)?.layoutRef;
+
+    // Create a Firebase Reference with the reference string
+    const layoutRef = layoutRefString
+      ? doc(db, "layout", layoutRefString)
+      : undefined;
+
+    // Fetch from Firebase and set the selected Component if exists
+    layoutRef
+      ? getDoc(layoutRef).then((res) =>
+          setSelectedComponent(
+            res.exists()
+              ? (res.data() as unknown as ComponentDetailsType)
+              : undefined
+          )
+        )
+      : setSelectedComponent(undefined);
+  }, [layoutList, selectedID]);
 
   return (
     <>

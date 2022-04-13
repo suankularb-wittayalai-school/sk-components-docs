@@ -229,7 +229,7 @@ const ComponentDetails = ({
 }: {
   component: ComponentDetailsType | undefined;
 }): JSX.Element => {
-  const { t } = useTranslation("components");
+  const { t } = useTranslation(["components", "common"]);
   const locale = useRouter().locale == "th" ? "th" : "en-US";
 
   // Form controls
@@ -237,7 +237,7 @@ const ComponentDetails = ({
 
   return (
     <MainSection>
-      {component && (
+      {component ? (
         <>
           {/* Title */}
           <Section className="leading-snug">
@@ -272,6 +272,8 @@ const ComponentDetails = ({
           {/* Properties */}
           <PropertiesSection content={component.properties} />
         </>
+      ) : (
+        <p>{t("loading", { ns: "common" })}</p>
       )}
       <Section>
         <Card type="stacked" appearance="outlined">

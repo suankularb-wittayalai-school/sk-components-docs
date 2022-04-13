@@ -46,28 +46,33 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
   const [selectedID, setSelectedID] = useState<number>(0);
 
   // Main content control
-  const [selectedComponent, setSelectedComponent] = useState<any>();
+  const [selectedComponent, setSelectedComponent] = useState<
+    ComponentDetailsType | undefined
+  >();
 
   // Fetch Component details when selected ID changes
   useEffect(() => {
-    if (selectedID != undefined) {
-      // Finds the reference string that matches the selected ID
-      const componentRefString = componentList
-        .map((item) => item.content)
-        .flat()
-        .find((item) => selectedID == item.id)?.componentRef;
+    // Finds the reference string that matches the selected ID
+    const componentRefString = componentList
+      .map((item) => item.content)
+      .flat()
+      .find((item) => selectedID == item.id)?.componentRef;
 
-      // Create a Firebase Reference with the reference string
-      const componentRef = componentRefString
-        ? doc(db, "component", componentRefString)
-        : undefined;
+    // Create a Firebase Reference with the reference string
+    const componentRef = componentRefString
+      ? doc(db, "component", componentRefString)
+      : undefined;
 
-      // Fetch from Firebase and set the selected Component if exists
-      componentRef &&
-        getDoc(componentRef).then((res) =>
-          setSelectedComponent(res.exists() ? res.data() : undefined)
-        );
-    }
+    // Fetch from Firebase and set the selected Component if exists
+    componentRef
+      ? getDoc(componentRef).then((res) =>
+          setSelectedComponent(
+            res.exists()
+              ? (res.data() as unknown as ComponentDetailsType)
+              : undefined
+          )
+        )
+      : setSelectedComponent(undefined);
   }, [componentList, selectedID]);
 
   return (
@@ -141,13 +146,7 @@ const Components: NextPage<{ componentList: ComponentList }> = ({
           />
         </ListSection>
 
-        {selectedComponent ? (
-          <ComponentDetails component={selectedComponent} />
-        ) : (
-          <MainSection>
-            <p>{t("loading", { ns: "common" })}</p>
-          </MainSection>
-        )}
+        <ComponentDetails component={selectedComponent} />
       </ListLayout>
     </>
   );

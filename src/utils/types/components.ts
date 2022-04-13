@@ -10,7 +10,8 @@ export type ComponentGroup = {
 
 export type ComponentListItem = {
   id: number;
-  componentRef: string;
+  componentRef?: string;
+  layoutRef?: string;
   content: {
     name: string;
     subtitle: {
