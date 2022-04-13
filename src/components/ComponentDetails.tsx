@@ -156,7 +156,10 @@ const ImplementationSection = ({
 
         {/* Code */}
         <div className="overflow-y-scroll bg-surface-1">
-          <CodeBlock language={language == "html" ? "html" : "jsx"} hasSharpCorners>
+          <CodeBlock
+            language={language == "html" ? "html" : "jsx"}
+            hasSharpCorners
+          >
             {content && content[language]}
           </CodeBlock>
         </div>
@@ -196,7 +199,11 @@ const PropertiesSection = ({
           {content.map((property) => (
             <tr
               key={property.id}
-              className={property.required ? "container-tertiary" : undefined}
+              className={
+                property.required
+                  ? "bg-gradient-to-r from-tertiary-container text-on-tertiary-container"
+                  : ""
+              }
             >
               <td className="font-mono" title={property.name}>
                 {property.name}
